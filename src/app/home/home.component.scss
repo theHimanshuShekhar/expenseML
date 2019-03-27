@@ -1,0 +1,62 @@
+@import '../../colors.css';
+
+Label {
+    text-align: center;
+    color: #3A53FF;
+    font-size: 30dp;
+}
+
+ActionBar>Label {
+    color: white;
+}
+
+.page {
+    background-color: #3A53FF;
+    height: 100%;
+    width: 100%;
+}
+
+.mainStack {
+    width: 100%;
+    padding: 20dp 15dp;
+}
+
+.datenav {
+    padding: 10dp;
+    border-width: 3dp;
+    border-color: white;
+    border-radius: 10dp;
+    min-height: 120dp;
+}
+
+.datenav>Label {
+    color: white;
+}
+
+.navicons {
+    margin-left: 10dp;
+    margin-right: 10dp;
+}
+
+.entries {
+    margin: 20dp 0dp;
+}
+
+.entry {
+    background-color: white;
+    margin-bottom: 10dp;
+    border-width: 3dp;
+    border-color: white;
+    border-radius: 10dp;
+    padding: 10dp;
+    min-height: 150dp;
+}
+
+.report {
+    background-color: #06CE6A;
+    color: white;
+    margin-bottom: 10dp;
+    border-radius: 10dp;
+    padding: 10dp;
+    min-height: 120dp;
+}
