@@ -29,34 +29,16 @@ ActionBar>Label {
     min-height: 120dp;
 }
 
-.datenav>Label {
+.datenav>StackLayout>Label {
     color: white;
 }
 
 .navicons {
+    color: white;
     margin-left: 10dp;
     margin-right: 10dp;
 }
 
 .entries {
     margin: 20dp 0dp;
-}
-
-.entry {
-    background-color: white;
-    margin-bottom: 10dp;
-    border-width: 3dp;
-    border-color: white;
-    border-radius: 10dp;
-    padding: 10dp;
-    min-height: 150dp;
-}
-
-.report {
-    background-color: #06CE6A;
-    color: white;
-    margin-bottom: 10dp;
-    border-radius: 10dp;
-    padding: 10dp;
-    min-height: 120dp;
 }

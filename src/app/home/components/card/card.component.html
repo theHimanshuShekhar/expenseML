@@ -1,0 +1,7 @@
+<StackLayout class="entry" *ngIf="entryData">
+    <DockLayout stretchLastChild="true">
+        <Label verticalAlignment="center" class="entryCategory" text="{{entryData.category}}" dock="left"></Label>
+        <Label verticalAlignment="center" class="entryValue" text="Rs.{{entryData.value}}"></Label>
+    </DockLayout>
+    <Label verticalAlignment="center" class="entryDesc" text="{{entryData.desc}}"></Label>
+</StackLayout>

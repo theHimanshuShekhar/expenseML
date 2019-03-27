@@ -21,21 +21,20 @@
         <DockLayout stretchLastChild="true" class="datenav" *ngIf="currDate">
             <Label text="&#xf053;" class="fa navicons" verticalAlignment="center" dock="left"></Label>
             <Label text="&#xf054;" class="fa navicons" dock="right" verticalAlignment="center"></Label>
-            <Label id="date" class="date" textWrap="true" verticalAlignment="center" text="{{ currDate }}"></Label>
+            <StackLayout oritentation="vertical">
+                <Label class="date" textWrap="true" verticalAlignment="center"
+                    text="{{ currDate| date:'EEEE' }}"></Label>
+                <Label class="date" textWrap="true" verticalAlignment="center" text="{{ currDate | date }}"></Label>
+            </StackLayout>
         </DockLayout>
-        <ns-card></ns-card>
         <StackLayout class="entries">
-            <Label text="Report" class="report" verticalAlignment="center"></Label>
-            <Label text="entry 1" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 2" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 3" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 4" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 5" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 6" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 7" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 8" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 9" class="entry" verticalAlignment="center"></Label>
-            <Label text="entry 10" class="entry" verticalAlignment="center"></Label>
+            <ns-report></ns-report>
+            <ns-card></ns-card>
+            <ns-card></ns-card>
+            <ns-card></ns-card>
+            <ns-card></ns-card>
+            <ns-card></ns-card>
+            <ns-card></ns-card>
         </StackLayout>
     </StackLayout>
 </ScrollView>

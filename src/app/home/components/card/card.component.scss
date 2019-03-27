@@ -1,0 +1,31 @@
+/* Add mobile styles for the component here.  */
+
+Label {
+    color: #3A53FF;
+    text-align: center;
+    font-size: 30dp;
+}
+
+.entry {
+    background-color: white;
+    margin-bottom: 10dp;
+    border-width: 3dp;
+    border-color: white;
+    border-radius: 10dp;
+    padding: 10dp;
+    min-height: 150dp;
+}
+
+.entryCategory {
+    background-color: #3A53FF;
+    color: white;
+    padding: 10dp;
+}
+
+.entryValue {
+    font-size: 50dp;
+}
+
+.entryDesc {
+    text-align: left;
+}
