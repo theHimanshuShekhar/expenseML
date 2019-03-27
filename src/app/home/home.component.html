@@ -12,10 +12,30 @@
     <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onDrawerButtonTap()"
         ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="Home"></Label>
+    <Label class="action-bar-title" text="Daily Tracker"></Label>
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf015;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+
+<ScrollView orientation="vertical" class="page">
+    <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="top" class="mainStack">
+        <DockLayout stretchLastChild="true" class="datenav" *ngIf="currDate">
+            <Label text="&#xf053;" class="fa navicons" verticalAlignment="center" dock="left"></Label>
+            <Label text="&#xf054;" class="fa navicons" dock="right" verticalAlignment="center"></Label>
+            <Label id="date" class="date" textWrap="true" verticalAlignment="center" text="{{ currDate }}"></Label>
+        </DockLayout>
+        <ns-card></ns-card>
+        <StackLayout class="entries">
+            <Label text="Report" class="report" verticalAlignment="center"></Label>
+            <Label text="entry 1" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 2" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 3" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 4" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 5" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 6" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 7" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 8" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 9" class="entry" verticalAlignment="center"></Label>
+            <Label text="entry 10" class="entry" verticalAlignment="center"></Label>
+        </StackLayout>
+    </StackLayout>
+</ScrollView>

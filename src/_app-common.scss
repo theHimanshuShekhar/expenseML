@@ -4,6 +4,7 @@
 .fa {
     font-family: "FontAwesome";
 }
+
 // Common page class
 .page-content {
     .page-placeholder {
@@ -27,7 +28,7 @@ ActionBar .action-bar-title {
     horizontal-align: center;
 }
 
- // Drawer navigation custom styles
+// Drawer navigation custom styles
 $sidedrawer-header-image-size: 60;
 $sidedrawer-header-image-offset-top: 20;
 $sidedrawer-header-image-offset-bottom: 5;
@@ -71,16 +72,20 @@ $sidedrawer-list-icon-size: 20;
 
         .sidedrawer-list-item {
             padding-left: $sidedrawer-list-item-offset-left;
+
             Label {
                 vertical-align: center;
                 color: $blue-dark;
             }
+
             .fa {
                 width: $sidedrawer-list-icon-size;
                 margin-right: $sidedrawer-list-icon-offset;
             }
+
             &.selected {
                 background-color: $item-active-background;
+
                 Label {
                     color: $item-active-color;
                 }

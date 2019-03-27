@@ -1,6 +1,6 @@
 {
   "nativescript": {
-    "id": "org.nativescript.expenseML",
+    "id": "org.hshekhar.expenseML",
     "tns-android": {
       "version": "5.2.1"
     },
