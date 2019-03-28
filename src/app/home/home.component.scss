@@ -18,15 +18,20 @@ ActionBar>Label {
 
 .mainStack {
     width: 100%;
-    padding: 20dp 15dp;
+    padding: 20dp 10dp;
 }
 
 .datenav {
-    padding: 10dp;
+    padding: 10dp 0dp;
     border-width: 3dp;
     border-color: white;
     border-radius: 10dp;
-    min-height: 120dp;
+    margin-bottom: 15dp;
+}
+
+.datenav>StackLayout {
+    padding: 0dp;
+    margin: 0dp;
 }
 
 .datenav>StackLayout>Label {
@@ -35,10 +40,24 @@ ActionBar>Label {
 
 .navicons {
     color: white;
-    margin-left: 10dp;
-    margin-right: 10dp;
+}
+
+.datenav>Button {
+    min-height: 70dp;
+    margin: 0dp;
+    padding: 0dp;
+    background-color: #3A53FF;
+    font-size: 30dp;
 }
 
 .entries {
-    margin: 20dp 0dp;
+    margin-top: 15dp;
+}
+
+.date-day {
+    font-size: 30dp;
+}
+
+.date-full {
+    font-size: 20dp;
 }

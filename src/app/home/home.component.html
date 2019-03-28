@@ -19,22 +19,22 @@
 <ScrollView orientation="vertical" class="page">
     <StackLayout orientation="vertical" horizontalAlignment="center" verticalAlignment="top" class="mainStack">
         <DockLayout stretchLastChild="true" class="datenav" *ngIf="currDate">
-            <Label text="&#xf053;" class="fa navicons" verticalAlignment="center" dock="left"></Label>
-            <Label text="&#xf054;" class="fa navicons" dock="right" verticalAlignment="center"></Label>
-            <StackLayout oritentation="vertical">
-                <Label class="date" textWrap="true" verticalAlignment="center"
+            <Button text="&#xf053;" class="fa navicons" verticalAlignment="center" dock="left"
+                (tap)="onDateNav('left')"></Button>
+            <Button text="&#xf054;" class="fa navicons" verticalAlignment="center" dock="right"
+                (tap)="onDateNav('right')"></Button>
+            <StackLayout oritentation="vertical" (tap)="onDateNav('date')" verticalAlignment="center">
+                <Label class="date-day" textWrap="true" verticalAlignment="center"
                     text="{{ currDate| date:'EEEE' }}"></Label>
-                <Label class="date" textWrap="true" verticalAlignment="center" text="{{ currDate | date }}"></Label>
+                <Label class="date-full" textWrap="true" verticalAlignment="center"
+                    text="{{ currDate | date }}"></Label>
             </StackLayout>
         </DockLayout>
+        <ns-report></ns-report>
         <StackLayout class="entries">
-            <ns-report></ns-report>
-            <ns-card></ns-card>
-            <ns-card></ns-card>
-            <ns-card></ns-card>
-            <ns-card></ns-card>
-            <ns-card></ns-card>
-            <ns-card></ns-card>
+            <StackLayout *ngFor="let report of reports">
+                <ns-card [entryData]="report"></ns-card>
+            </StackLayout>
         </StackLayout>
     </StackLayout>
 </ScrollView>
