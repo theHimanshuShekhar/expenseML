@@ -3,7 +3,6 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import * as dialogs from "tns-core-modules/ui/dialogs";
 import { DataService } from "../services/data.service";
-
 @Component({
     selector: "Home",
     moduleId: module.id,
@@ -19,9 +18,12 @@ export class HomeComponent implements OnInit {
 
     ngOnInit(): void {
         // Init your component properties here.
+        this.updateStatusBar();
         this.currDate = new Date();
         this.getReports();
     }
+
+    updateStatusBar() {}
     getReports() {
         this.reports = this.dataService.getDateReports("uid", this.currDate);
     }
@@ -31,21 +33,21 @@ export class HomeComponent implements OnInit {
     }
 
     onDateNav(type): void {
-        this.changeDate(type);
-        // dialogs.alert({
-        //     title: "clicked " + type,
-        //     message: this.currDate.toDateString(),
-        //     okButtonText: "close"
-        // });
+        this.ngzone.run(() => this.changeDate(type));
+        dialogs.alert({
+            title: "clicked " + type,
+            message: this.currDate.toDateString(),
+            okButtonText: "close"
+        });
     }
     changeDate(type) {
-        this.ngzone.run(() => {
-            if (type === "right") {
-                this.currDate.setDate(this.currDate.getDate() + 1);
-            }
-            if (type === "left") {
-                this.currDate.setDate(this.currDate.getDate() - 1);
-            }
-        });
+        if (type === "right") {
+            this.currDate.setDate(this.currDate.getDate() + 1);
+        }
+        if (type === "left") {
+            this.currDate.setDate(this.currDate.getDate() - 1);
+        }
+
+        return this.currDate;
     }
 }
