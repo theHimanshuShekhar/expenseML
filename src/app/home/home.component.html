@@ -26,9 +26,9 @@
                 (tap)="onDateNav('right')"></Button>
             <StackLayout oritentation="vertical" (tap)="onDateNav('date')" verticalAlignment="center">
                 <Label class="date-day" textWrap="true" verticalAlignment="center"
-                    text="{{ currDate| date:'EEEE' }}"></Label>
+                    text="{{ dispDate| date:'EEEE' }}"></Label>
                 <Label class="date-full" textWrap="true" verticalAlignment="center"
-                    text="{{ currDate | date }}"></Label>
+                    text="{{ dispDate | date }}"></Label>
             </StackLayout>
         </DockLayout>
         <ns-report></ns-report>

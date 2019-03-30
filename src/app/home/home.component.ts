@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import * as dialogs from "tns-core-modules/ui/dialogs";
@@ -11,18 +11,20 @@ import { DataService } from "../services/data.service";
 })
 export class HomeComponent implements OnInit {
     currDate;
+    dispDate;
     reports;
-    constructor(private dataService: DataService, private zone: NgZone) {
+    constructor(
+        private dataService: DataService) {
         // Use the component constructor to inject providers.
     }
 
     ngOnInit(): void {
         // Init your component properties here.
         this.currDate = new Date();
+        this.onDateNav();
         this.getReports();
     }
 
-    // updateStatusBar() {}
     getReports() {
         this.reports = this.dataService.getDateReports("uid", this.currDate);
     }
@@ -31,19 +33,14 @@ export class HomeComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
-    onDateNav(type): void {
-        this.zone.run(() => {
-            if (type === "right") {
-                this.currDate.setDate(this.currDate.getDate() + 1);
-            }
-            if (type === "left") {
-                this.currDate.setDate(this.currDate.getDate() - 1);
-            }
-        });
-        // dialogs.alert({
-        //     title: "clicked " + type,
-        //     message: this.currDate.toDateString(),
-        //     okButtonText: "close"
-        // });
+    onDateNav(type?) {
+        if (type === "right") {
+            this.currDate.setDate(this.currDate.getDate() + 1);
+        }
+        if (type === "left") {
+            this.currDate.setDate(this.currDate.getDate() - 1);
+        }
+        this.dispDate = this.currDate.toDateString();
+        this.getReports();
     }
 }
