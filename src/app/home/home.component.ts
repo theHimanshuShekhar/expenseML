@@ -1,9 +1,10 @@
-import { Component, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { DataService } from "../services/data.service";
 import { AuthService } from "../services/auth.service";
 import { registerElement } from "nativescript-angular/element-registry";
+import { RouterExtensions } from "nativescript-angular/router";
 registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
 @Component({
@@ -19,7 +20,8 @@ export class HomeComponent implements OnInit {
     user;
     constructor(
         private dataService: DataService,
-        private auth: AuthService) {
+        private auth: AuthService,
+        private router: RouterExtensions) {
         // Use the component constructor to inject providers.
     }
 
@@ -56,6 +58,10 @@ export class HomeComponent implements OnInit {
         this.getReports();
     }
     addEntry() {
-        this.auth.redirect("editentry");
+        this.router.navigate(["editentry"], {
+            queryParams: {
+                "date": this.currDate
+            }
+        });
     }
 }

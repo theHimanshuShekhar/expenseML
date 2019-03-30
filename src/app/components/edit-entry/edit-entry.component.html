@@ -15,4 +15,21 @@
     </ActionItem>
     <Label class="action-bar-title" text="Add Entry"></Label>
 </ActionBar>
-<Button text="edit-entry works!" class="btn btn-primary"></Button>
+<FlexboxLayout class="page">
+    <StackLayout class="form">
+        <Label text="Edit or Add" class="p-200 text-center h1 text-white"></Label>
+        <Label text="{{ date | date:'EEEE , dd MMM yyyy'}}" class="p-200 text-center h1 text-white"></Label>
+        <StackLayout class="input-field">
+            <TextField class="input" hint="Description" autocorrect="true">
+            </TextField>
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <TextField class="input" hint="Value" keyboardType="number">
+            </TextField>
+        </StackLayout>
+
+        <Button text="Add Entry" class="btn btn-primary" [nsRouterLink]="['/home']" pageTransition="slide"
+            clearHistory="true"></Button>
+    </StackLayout>
+</FlexboxLayout>
