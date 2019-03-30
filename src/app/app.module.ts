@@ -7,6 +7,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { LandingComponent } from './landing/landing.component';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -16,7 +17,7 @@ import { RegisterComponent } from './register/register.component';
         NativeScriptUISideDrawerModule,
         NativeScriptFormsModule
     ],
-    declarations: [AppComponent, LoginComponent, RegisterComponent],
+    declarations: [AppComponent, LoginComponent, RegisterComponent, LandingComponent],
     schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule {}

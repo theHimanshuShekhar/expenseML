@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "604289387149",
+    "firebase_url": "https://expense-ml.firebaseio.com",
+    "project_id": "expense-ml",
+    "storage_bucket": "expense-ml.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:604289387149:android:3c197ac600db86f6",
+        "android_client_info": {
+          "package_name": "org.hshekhar.expenseML"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "604289387149-fknpj8hctlijpu8kutv613h9s99btkab.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hshekhar.expenseML",
+            "certificate_hash": "b8e633859473acd0d581024a122cf4d806f98519"
+          }
+        },
+        {
+          "client_id": "604289387149-4ppmvku6553q5r0u0f5huiac9n5cg54g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkaUqepWlnxClbw2YMlS-OQHhotO2QhlQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "604289387149-4ppmvku6553q5r0u0f5huiac9n5cg54g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
