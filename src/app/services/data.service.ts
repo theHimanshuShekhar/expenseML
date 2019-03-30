@@ -5,11 +5,13 @@ import { Injectable } from "@angular/core";
     providedIn: "root"
 })
 export class DataService {
+    data;
 
     constructor() {
         if (!firebase.initialized) {
             firebase.init({
                 onAuthStateChanged(data) {
+                    this.data = data;
                     console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
                     if (data.loggedIn) {
                         console.log("user's email address: " + (data.user.email ? data.user.email : "N/A"));

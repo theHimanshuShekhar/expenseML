@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
-import { RouterExtensions } from "nativescript-angular/router";
 import { DrawerTransitionBase, RadSideDrawer, SlideInOnTopTransition } from "nativescript-ui-sidedrawer";
 import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
+import { AuthService } from "./services/auth.service";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
     moduleId: module.id,
@@ -14,7 +15,14 @@ export class AppComponent implements OnInit {
     private _activatedUrl: string;
     private _sideDrawerTransition: DrawerTransitionBase;
 
-    constructor(private router: Router, private routerExtensions: RouterExtensions) {
+    email;
+    username;
+
+
+    constructor(
+        private router: Router,
+        private routerExtensions: RouterExtensions,
+        private auth: AuthService) {
         // Use the component constructor to inject services.
     }
 
@@ -22,9 +30,20 @@ export class AppComponent implements OnInit {
         this._activatedUrl = "/home";
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
+        this.getCurrentUser();
+
         this.router.events
-        .pipe(filter((event: any) => event instanceof NavigationEnd))
-        .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+            .pipe(filter((event: any) => event instanceof NavigationEnd))
+            .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+    }
+
+    getCurrentUser() {
+        this.auth.getCurrentUser().then((user) => {
+            this.email = user.email;
+            this.username = user.name;
+        }).catch(() => {
+            this.auth.redirect("landing");
+        });
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
@@ -44,5 +63,11 @@ export class AppComponent implements OnInit {
 
         const sideDrawer = <RadSideDrawer>app.getRootView();
         sideDrawer.closeDrawer();
+    }
+
+    logout() {
+        const sideDrawer = <RadSideDrawer>app.getRootView();
+        sideDrawer.closeDrawer();
+        this.auth.logout();
     }
 }

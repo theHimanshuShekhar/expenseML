@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class RegisterComponent implements OnInit {
   googlesignin = false;
+  user;
   constructor(
     private page: Page,
     private auth: AuthService) { }
@@ -19,8 +20,10 @@ export class RegisterComponent implements OnInit {
   }
 
   googleRegister() {
-    this.googlesignin = !this.googlesignin;
-    this.auth.loginGoogle();
+    this.auth.registerGoogle().then((user) => {
+      this.user = user;
+      this.googlesignin = true;
+    });
   }
 
 }

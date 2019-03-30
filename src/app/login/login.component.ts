@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { EventData, Page } from "tns-core-modules/ui/page/page";
+import { AuthService } from "../services/auth.service";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
     selector: "ns-login",
@@ -8,9 +10,16 @@ import { EventData, Page } from "tns-core-modules/ui/page/page";
     moduleId: module.id
 })
 export class LoginComponent implements OnInit {
-    constructor(private page: Page) {}
+    constructor(
+        private page: Page,
+        private auth: AuthService,
+        private router: RouterExtensions) { }
 
     ngOnInit() {
         this.page.actionBarHidden = true;
+    }
+
+    googleLogin() {
+        this.auth.loginGoogle();
     }
 }

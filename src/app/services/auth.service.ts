@@ -1,13 +1,13 @@
 const firebase = require("nativescript-plugin-firebase");
 import { Injectable } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Injectable({
     providedIn: "root"
 })
 export class AuthService {
 
-    constructor() {
-        console.log("auth service");
+    constructor(private router: RouterExtensions) {
         if (!firebase.initialized) {
             firebase.init({
                 onAuthStateChanged(data) {
@@ -19,21 +19,37 @@ export class AuthService {
             });
         }
     }
-
-    loginGoogle() {
-        firebase.login({
+    registerGoogle() {
+        return firebase.login({
             type: firebase.LoginType.GOOGLE
-            // Optional
-            // googleOptions: {
-            //     hostedDomain: "mygsuitedomain.com"
-            // }
         }).then((result) => {
-            JSON.stringify(result);
+            return result;
         },
             (errorMessage) => {
                 console.log(errorMessage);
             }
         );
+    }
+
+    loginGoogle() {
+        firebase.login({
+            type: firebase.LoginType.GOOGLE
+        }).then((result) => {
+            this.router.navigateByUrl("/home");
+        },
+            (errorMessage) => {
+                console.log(errorMessage);
+            }
+        );
+    }
+    getCurrentUser() {
+        return firebase.getCurrentUser();
+    }
+    logout() {
+        firebase.logout().then(() => this.redirect("landing"));
+    }
+    redirect(page) {
+        this.router.navigateByUrl("/" + page);
     }
 
     getFirebase() {

@@ -1,8 +1,9 @@
 import { Component, OnInit, NgZone, ChangeDetectorRef, ApplicationRef } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
-import * as dialogs from "tns-core-modules/ui/dialogs";
 import { DataService } from "../services/data.service";
+import { AuthService } from "../services/auth.service";
+
 @Component({
     selector: "Home",
     moduleId: module.id,
@@ -13,12 +14,22 @@ export class HomeComponent implements OnInit {
     currDate;
     dispDate;
     reports;
-    constructor(private dataService: DataService) {
+    user;
+    constructor(
+        private dataService: DataService,
+        private auth: AuthService) {
         // Use the component constructor to inject providers.
     }
 
     ngOnInit(): void {
         // Init your component properties here.
+        this.auth.getCurrentUser().then((user) => {
+            if (user) {
+                this.user = user;
+            }
+        }).catch(() => {
+            this.auth.redirect("landing");
+        });
         this.currDate = new Date();
         this.onDateNav();
         this.getReports();
