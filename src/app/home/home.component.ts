@@ -56,6 +56,6 @@ export class HomeComponent implements OnInit {
         this.getReports();
     }
     addEntry() {
-        console.log("Add entry clicked");
+        this.auth.redirect("editentry");
     }
 }

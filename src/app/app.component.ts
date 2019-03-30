@@ -50,6 +50,7 @@ export class AppComponent implements OnInit {
         if (!this.username) {
             this.getCurrentUser();
         }
+
         return this._sideDrawerTransition;
     }
 
