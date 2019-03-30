@@ -3,6 +3,8 @@ import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { DataService } from "../services/data.service";
 import { AuthService } from "../services/auth.service";
+import { registerElement } from "nativescript-angular/element-registry";
+registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
 @Component({
     selector: "Home",
@@ -52,5 +54,8 @@ export class HomeComponent implements OnInit {
         }
         this.dispDate = this.currDate.toDateString();
         this.getReports();
+    }
+    addEntry() {
+        console.log("Add entry clicked");
     }
 }

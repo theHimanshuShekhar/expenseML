@@ -47,6 +47,9 @@ export class AppComponent implements OnInit {
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
+        if (!this.username) {
+            this.getCurrentUser();
+        }
         return this._sideDrawerTransition;
     }
 
