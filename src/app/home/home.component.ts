@@ -13,8 +13,7 @@ export class HomeComponent implements OnInit {
     currDate;
     dispDate;
     reports;
-    constructor(
-        private dataService: DataService) {
+    constructor(private dataService: DataService) {
         // Use the component constructor to inject providers.
     }
 
@@ -23,6 +22,7 @@ export class HomeComponent implements OnInit {
         this.currDate = new Date();
         this.onDateNav();
         this.getReports();
+        console.log(this.dataService.getFirebase());
     }
 
     getReports() {

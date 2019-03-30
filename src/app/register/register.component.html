@@ -1,1 +1,31 @@
-<Button text="register works!" class="btn btn-primary"></Button>
+<FlexboxLayout class="page">
+    <StackLayout class="form">
+        <Label text="expenseML" class="title"></Label>
+        <StackLayout *ngIf="!googlesignin">
+            <StackLayout class="input-field">
+                <TextField class="input" hint="Email" keyboardType="email" autocorrect="false"
+                    autocapitalizationType="none"></TextField>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <TextField class="input" hint="Password" secure="true" autocorrect="false"
+                    autocapitalizationType="none">
+                </TextField>
+            </StackLayout>
+
+            <StackLayout class="input-field">
+                <TextField class="input" hint="Confirm Password" secure="true" autocorrect="false"
+                    autocapitalizationType="none">
+                </TextField>
+            </StackLayout>
+
+            <Label text="or" class="text-center h3 text-white" verticalOrientation="center"
+                horizontalOrientation="center"></Label>
+        </StackLayout>
+        <Button text="Google Account" class="btn btn-primary google" (tap)="googleRegister()"></Button>
+
+
+        <Button text="Register" class="btn btn-primary" [nsRouterLink]="['/home']" pageTransition="slide"
+            clearHistory="true"></Button>
+    </StackLayout>
+</FlexboxLayout>

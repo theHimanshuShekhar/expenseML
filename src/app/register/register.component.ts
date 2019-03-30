@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
   selector: 'ns-register',
@@ -7,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
   moduleId: module.id,
 })
 export class RegisterComponent implements OnInit {
-
-  constructor() { }
+  googlesignin = false;
+  constructor(private page: Page) { }
 
   ngOnInit() {
+    this.page.actionBarHidden = true;
+  }
+
+  googleRegister() {
+    this.googlesignin = !this.googlesignin;
   }
 
 }
