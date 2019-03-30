@@ -46,8 +46,9 @@ ActionBar>Label {
     padding: 0dp;
     background-color: #3A53FF;
     font-size: 30dp;
-    border-width: 0dp;
+    border-width: 1;
     box-shadow: none;
+    border-color: transparent;
 }
 
 .entries {

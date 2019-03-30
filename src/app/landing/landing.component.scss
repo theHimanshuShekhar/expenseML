@@ -1,1 +1,38 @@
 /* Add mobile styles for the component here.  */
+.page {
+    height: 100%;
+    width: 100%;
+    align-items: center;
+    flex-direction: column;
+    background-color: #3A53FF;
+    margin-left: 30;
+    margin-right: 30;
+    padding: 0dp 10dp;
+}
+
+.title {
+    text-align: center;
+    padding: 0dp;
+    font-size: 45dp;
+    margin-bottom: 50dp;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 100dp;
+}
+
+.btn {
+    width: 60%;
+    border-radius: 10dp;
+    padding: 10dp;
+    color: #3A53FF;
+    background-color: white;
+    font-size: 20dp;
+    font-weight: 600;
+}
+
+.signup {
+    background-color: #3A53FF;
+    color: white;
+    border-width: 2dp;
+    border-color: white;
+}

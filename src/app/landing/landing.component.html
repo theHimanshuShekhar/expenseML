@@ -1,1 +1,6 @@
-<Button text="landing works!" class="btn btn-primary"></Button>
+<StackLayout class="page" horizontalAlignment="center" verticalAlignment="center">
+    <Label text="expenseML" class="title"></Label>
+    <Button text="Log In" class="btn btn-primary" [nsRouterLink]="['/login']" pageTransition="slide"></Button>
+    <Button text="Sign Up" class="btn btn-primary signup" [nsRouterLink]="['/register']"
+        pageTransition="slide"></Button>
+</StackLayout>

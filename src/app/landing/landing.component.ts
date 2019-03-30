@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
   selector: 'ns-landing',
@@ -8,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  constructor(private page: Page) { }
 
   ngOnInit() {
+    this.page.actionBarHidden = true;
   }
 
 }

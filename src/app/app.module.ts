@@ -3,7 +3,10 @@ import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 
+// Routing module
 import { AppRoutingModule } from "./app-routing.module";
+
+// Components
 import { AppComponent } from "./app.component";
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -20,4 +23,4 @@ import { LandingComponent } from './landing/landing.component';
     declarations: [AppComponent, LoginComponent, RegisterComponent, LandingComponent],
     schemas: [NO_ERRORS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

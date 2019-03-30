@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
         this.currDate = new Date();
         this.onDateNav();
         this.getReports();
-        console.log(this.dataService.getFirebase());
     }
 
     getReports() {
