@@ -1,0 +1,18 @@
+<FlexboxLayout class="page">
+    <StackLayout class="form">
+        <Label text="expenseML" class="title"></Label>
+        <StackLayout class="input-field">
+            <TextField class="input" hint="Email" keyboardType="email" autocorrect="false"
+                autocapitalizationType="none"></TextField>
+        </StackLayout>
+
+        <StackLayout class="input-field">
+            <TextField class="input" hint="Password" secure="true" autocorrect="false" autocapitalizationType="none">
+            </TextField>
+        </StackLayout>
+
+        <Button text="Log In" class="btn btn-primary" [nsRouterLink]="['/home']" pageTransition="slide"
+            clearHistory="true"></Button>
+        <Button text="Google Account" class="btn btn-primary google"></Button>
+    </StackLayout>
+</FlexboxLayout>

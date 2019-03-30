@@ -1,0 +1,46 @@
+/* Add mobile styles for the component here.  */
+.page {
+  align-items: center;
+  flex-direction: column;
+  background-color: #3A53FF;
+}
+
+.form {
+  margin-left: 30;
+  margin-right: 30;
+  flex-grow: 2;
+  vertical-align: middle;
+  padding: 0dp 10dp;
+}
+
+.title {
+  text-align: center;
+  padding: 0dp;
+  font-size: 45dp;
+  margin-bottom: 50dp;
+  color: white;
+  font-weight: 600;
+}
+
+.input-field {
+  border-radius: 10dp;
+  padding: 10dp;
+  background-color: white;
+  width: 300dp;
+  width: 100%;
+}
+
+.btn {
+  width: 100%;
+  border-radius: 10dp;
+  padding: 10dp;
+  color: #3A53FF;
+  background-color: white;
+  font-size: 20dp;
+  font-weight: 600;
+}
+
+.google {
+  background-color: #DB4437;
+  color: white;
+}

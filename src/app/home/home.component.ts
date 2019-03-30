@@ -12,18 +12,17 @@ import { DataService } from "../services/data.service";
 export class HomeComponent implements OnInit {
     currDate;
     reports;
-    constructor(private dataService: DataService, private ngzone: NgZone) {
+    constructor(private dataService: DataService, private zone: NgZone) {
         // Use the component constructor to inject providers.
     }
 
     ngOnInit(): void {
         // Init your component properties here.
-        this.updateStatusBar();
         this.currDate = new Date();
         this.getReports();
     }
 
-    updateStatusBar() {}
+    // updateStatusBar() {}
     getReports() {
         this.reports = this.dataService.getDateReports("uid", this.currDate);
     }
@@ -33,21 +32,18 @@ export class HomeComponent implements OnInit {
     }
 
     onDateNav(type): void {
-        this.ngzone.run(() => this.changeDate(type));
-        dialogs.alert({
-            title: "clicked " + type,
-            message: this.currDate.toDateString(),
-            okButtonText: "close"
+        this.zone.run(() => {
+            if (type === "right") {
+                this.currDate.setDate(this.currDate.getDate() + 1);
+            }
+            if (type === "left") {
+                this.currDate.setDate(this.currDate.getDate() - 1);
+            }
         });
-    }
-    changeDate(type) {
-        if (type === "right") {
-            this.currDate.setDate(this.currDate.getDate() + 1);
-        }
-        if (type === "left") {
-            this.currDate.setDate(this.currDate.getDate() - 1);
-        }
-
-        return this.currDate;
+        // dialogs.alert({
+        //     title: "clicked " + type,
+        //     message: this.currDate.toDateString(),
+        //     okButtonText: "close"
+        // });
     }
 }
