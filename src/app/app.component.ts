@@ -19,6 +19,7 @@ export class AppComponent implements OnInit {
     email;
     username;
 
+    gestures = true;
 
     constructor(
         private firebaseService: FirebaseService,
@@ -36,7 +37,15 @@ export class AppComponent implements OnInit {
 
         this.router.events
             .pipe(filter((event: any) => event instanceof NavigationEnd))
-            .subscribe((event: NavigationEnd) => this._activatedUrl = event.urlAfterRedirects);
+            .subscribe((event: NavigationEnd) => {
+                this._activatedUrl = event.urlAfterRedirects;
+                if (this._activatedUrl == "/login"
+                    || this._activatedUrl == "/landing" || this._activatedUrl == "/register") {
+                    this.gestures = false;
+                } else {
+                    this.gestures = true;
+                }
+            });
     }
 
     getCurrentUser() {
