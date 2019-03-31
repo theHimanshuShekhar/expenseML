@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditEntryComponent implements OnInit {
   date;
+  eid;
   constructor(
     private router: RouterExtensions,
     private route: ActivatedRoute) { }
@@ -17,6 +18,7 @@ export class EditEntryComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe((params) => {
       this.date = params["date"];
+      this.eid = params["eid"];
     });
   }
 

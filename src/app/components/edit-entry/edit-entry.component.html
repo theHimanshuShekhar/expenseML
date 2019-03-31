@@ -13,11 +13,10 @@
     <ActionItem icon="res://navigation/menu" android:visibility="collapsed" (tap)="onBackButtonTap()"
         ios.position="left">
     </ActionItem>
-    <Label class="action-bar-title" text="Add Entry"></Label>
+    <Label class="action-bar-title" text="{{eid ? 'Edit Entry' : 'Add Entry'}}"></Label>
 </ActionBar>
 <FlexboxLayout class="page">
     <StackLayout class="form">
-        <Label text="Edit or Add" class="p-200 text-center h1 text-white"></Label>
         <Label text="{{ date | date:'EEEE , dd MMM yyyy'}}" class="p-0 text-center h2 text-white"></Label>
         <StackLayout class="input-field">
             <TextField class="input" hint="Description" autocorrect="true">
