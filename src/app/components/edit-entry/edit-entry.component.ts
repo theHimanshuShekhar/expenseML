@@ -11,6 +11,7 @@ import { DataService } from '~/app/services/data.service';
 })
 export class EditEntryComponent implements OnInit {
   disablebtn = false;
+  isupdate = false;
   date;
   eid;
   data = {
@@ -27,12 +28,21 @@ export class EditEntryComponent implements OnInit {
     this.route.queryParams.subscribe((params) => {
       this.date = params["date"];
       this.eid = params["eid"];
+      if (this.eid) {
+        this.isupdate = true;
+        this.data.desc = params["desc"];
+        this.data.value = params["value"];
+        this.data.category = params["category"];
+      }
     });
   }
 
   addEntry() {
-    if (this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
+    if (!this.isupdate && this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
       this.dataService.addEntry({ ...this.data, date: this.date });
+    }
+    if (this.isupdate && this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
+      this.dataService.updateEntry({ ...this.data, date: this.date, eid: this.eid });
     }
   }
 

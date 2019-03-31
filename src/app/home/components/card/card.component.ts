@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
+import { RouterExtensions } from "nativescript-angular/router";
 
 @Component({
     selector: "ns-card",
@@ -8,15 +9,21 @@ import { Component, OnInit, Input } from "@angular/core";
 })
 export class CardComponent implements OnInit {
     @Input() entryData;
-    constructor() {}
+    constructor(private router: RouterExtensions) { }
 
     ngOnInit() {
-        if (!this.entryData) {
-            this.entryData = {
-                category: "Transport",
-                value: "75",
-                desc: "Auto + Bus money"
-            };
-        }
+        //  Initialize values
+    }
+
+    editEntry() {
+        this.router.navigate(["editentry"], {
+            queryParams: {
+                "date": this.entryData.date,
+                "eid": this.entryData.eid,
+                "desc": this.entryData.desc,
+                "value": this.entryData.value,
+                "category": this.entryData.category
+            }
+        });
     }
 }

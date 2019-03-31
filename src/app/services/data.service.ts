@@ -31,6 +31,13 @@ export class DataService {
 
     //     return records;
     // });
+    updateEntry(data) {
+        this.firebaseService.getCurrentUser().then((user) => {
+            firestore.collection("users").doc(user.uid).collection("records").doc(this.getDateString(data.date))
+                .collection("records").doc(data.eid).update(data).then(() =>
+                    this.routerExtention.back());
+        });
+    }
 
     addEntry(data) {
         this.firebaseService.getCurrentUser()
@@ -56,21 +63,10 @@ export class DataService {
             .catch((err) => console.log(err));
     }
 
-    updateEntry(data) {
-        // Update existing record
-    }
     getDateString(date) {
         const thedate = new Date(date);
 
         return thedate.getDate() + "_" + thedate.getMonth() + "_" + thedate.getFullYear();
     }
 
-}
-
-
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
 }

@@ -43,6 +43,8 @@ export class HomeComponent implements OnInit {
     }
 
     getEntries() {
+
+        this.entries = [];
         this.firebaseService.getCurrentUser()
             .then((user) => {
 
@@ -50,6 +52,7 @@ export class HomeComponent implements OnInit {
                     .doc(this.dataService.getDateString(this.currDate)).collection("records")
                     .onSnapshot((snapshot) => {
                         this.zone.run(() => {
+                            this.entries = [];
                             snapshot.forEach((record) => this.entries.push(record.data()));
                         });
                     });
@@ -69,17 +72,9 @@ export class HomeComponent implements OnInit {
         }
         this.dispDate = this.currDate.toDateString();
 
-        this.entries = [];
         this.getEntries();
     }
-    editEntry(eid) {
-        this.router.navigate(["editentry"], {
-            queryParams: {
-                "date": this.currDate,
-                "eid": eid
-            }
-        });
-    }
+
     addEntry() {
         this.router.navigate(["editentry"], {
             queryParams: {
