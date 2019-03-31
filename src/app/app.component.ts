@@ -5,6 +5,7 @@ import { filter } from "rxjs/operators";
 import * as app from "tns-core-modules/application";
 import { AuthService } from "./services/auth.service";
 import { RouterExtensions } from "nativescript-angular/router";
+import { FirebaseService } from "./services/firebase.service";
 
 @Component({
     moduleId: module.id,
@@ -20,6 +21,7 @@ export class AppComponent implements OnInit {
 
 
     constructor(
+        private firebaseService: FirebaseService,
         private router: Router,
         private routerExtensions: RouterExtensions,
         private auth: AuthService) {
@@ -38,7 +40,7 @@ export class AppComponent implements OnInit {
     }
 
     getCurrentUser() {
-        this.auth.getCurrentUser().then((user) => {
+        this.firebaseService.getCurrentUser().then((user) => {
             this.email = user.email;
             this.username = user.name;
         }).catch(() => {

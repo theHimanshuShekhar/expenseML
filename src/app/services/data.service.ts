@@ -7,24 +7,9 @@ import { Injectable } from "@angular/core";
 export class DataService {
     data;
 
-    constructor() {
-        if (!firebase.initialized) {
-            firebase.init({
-                onAuthStateChanged(data) {
-                    this.data = data;
-                    console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
-                    if (data.loggedIn) {
-                        console.log("user's email address: " + (data.user.email ? data.user.email : "N/A"));
-                    }
-                }
-            });
-        }
-    }
+    constructor() { }
 
-    getFirebase() {
-        return firebase;
-    }
-    getDateReports(uid, date) {
+    getDateEntries(uid, date) {
         const data = [
             {
                 category: "Transport",

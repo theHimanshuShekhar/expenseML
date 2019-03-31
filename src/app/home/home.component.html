@@ -34,8 +34,8 @@
             </DockLayout>
             <ns-report></ns-report>
             <StackLayout class="entries">
-                <StackLayout *ngFor="let report of reports">
-                    <ns-card [entryData]="report"></ns-card>
+                <StackLayout *ngFor="let entry of entries">
+                    <ns-card [entryData]="entry"></ns-card>
                 </StackLayout>
             </StackLayout>
         </StackLayout>
