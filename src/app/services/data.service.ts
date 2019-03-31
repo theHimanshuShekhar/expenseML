@@ -1,5 +1,8 @@
-const firebase = require("nativescript-plugin-firebase");
 import { Injectable } from "@angular/core";
+import { firestore } from "nativescript-plugin-firebase";
+import { FirebaseService } from "./firebase.service";
+import { RouterExtensions } from "nativescript-angular/router";
+import { isDate } from "@angular/common/src/i18n/format_date";
 
 @Injectable({
     providedIn: "root"
@@ -7,40 +10,63 @@ import { Injectable } from "@angular/core";
 export class DataService {
     data;
 
-    constructor() { }
+    constructor(
+        private firebaseService: FirebaseService,
+        private routerExtention: RouterExtensions
+    ) { }
 
-    getDateEntries(uid, date) {
-        const data = [
-            {
-                category: "Transport",
-                value: "55",
-                desc: "Auto fare"
-            },
-            {
-                category: "Transport",
-                value: "15",
-                desc: "Bus Ticket"
-            },
-            {
-                category: "Food",
-                value: "20",
-                desc: "Lunch"
-            },
-            {
-                category: "Bills",
-                value: "1200",
-                desc: "Internet"
-            },
-            {
-                category: "Misc",
-                value: "45",
-                desc: "Stationary"
-            }];
-        shuffleArray(data);
+    // getDateEntries(date) {
+    //     return
+    // }
 
-        return data;
+
+    //     const recordcollection = .collection("records")
+    //     .doc(date).collection("records");
+
+    // return recordcollection.onSnapshot((snapshot) => {
+    //     let records = {};
+    //     snapshot.forEach((doc) => {
+    //         records = { ...doc.data() };
+    //     });
+
+    //     return records;
+    // });
+
+    addEntry(data) {
+        this.firebaseService.getCurrentUser()
+            .then((user) => {
+                const datedoc = firestore.collection("users").doc(user.uid)
+                    .collection("records").doc(this.getDateString(data.date));
+                datedoc.set({
+                    date: this.getDateString(data.date),
+                    estimate: null
+                })
+                    .then(() => {
+                        console.log("Date doc created");
+                        const record = datedoc.collection("records").doc();
+                        data = { eid: record.id, ...data };
+                        record.set(data).then(() => console.log("record added"))
+                            .then(() => {
+                                this.routerExtention.back();
+                            })
+                            .catch((err) => console.log(err));
+                    })
+                    .catch((err) => console.log(err));
+            })
+            .catch((err) => console.log(err));
     }
+
+    updateEntry(data) {
+        // Update existing record
+    }
+    getDateString(date) {
+        const thedate = new Date(date);
+
+        return thedate.getDate() + "_" + thedate.getMonth() + "_" + thedate.getFullYear();
+    }
+
 }
+
 
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {

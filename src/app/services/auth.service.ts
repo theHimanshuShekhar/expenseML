@@ -58,10 +58,6 @@ export class AuthService {
                         .catch((error) => console.log(error));
                 }
             });
-
-        // firebase.firestore().
-        //     citiesCollection.doc().add({
-        //     });
     }
 
     loginGoogle() {

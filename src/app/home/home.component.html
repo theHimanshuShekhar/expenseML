@@ -33,7 +33,9 @@
                 </StackLayout>
             </DockLayout>
             <ns-report></ns-report>
-            <StackLayout class="entries">
+            <Label textWrap="true" text="No records for this day!" style="margin-top:25 ;color: white" class="h6"
+                *ngIf="entries.length === 0"></Label>
+            <StackLayout class="entries" *ngIf="entries">
                 <StackLayout *ngFor="let entry of entries">
                     <ns-card [entryData]="entry"></ns-card>
                 </StackLayout>
