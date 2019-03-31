@@ -13,7 +13,9 @@
   "repository": "https://github.com/theHimanshuShekhar/expenseML",
   "scripts": {
     "lint": "tslint \"src/**/*.ts\"",
-    "start": "tns run android --bundle --env.uglify --env.aot --env.snapshot"
+    "start": "tns run android --bundle --env.uglify --env.aot --env.snapshot",
+    "preview": "tns preview --hmr --env.uglify --env.aot",
+    "splash": "tns resources generate splashes ./src/assets/logo.png --background '#3A53FF'"
   },
   "dependencies": {
     "@angular/animations": "~7.2.0",
