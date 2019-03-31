@@ -1,31 +1,65 @@
-<FlexboxLayout class="page">
-    <StackLayout class="form">
+<ScrollView orientation="vertical" class="page">
+    <StackLayout class="form" *ngIf="!loading; else Loading">
         <Label text="expenseML" class="title"></Label>
-        <StackLayout *ngIf="!googlesignin">
+        <StackLayout>
             <StackLayout class="input-field">
-                <TextField class="input" hint="Email" keyboardType="email" autocorrect="false"
+                <Label *ngIf="user" text="{{user.email}}" class="text-left h3" verticalOrientation="center"
+                    horizontalOrientation="left"></Label>
+                <TextField *ngIf="!user" class="input" hint="Email" keyboardType="email" autocorrect="false"
                     autocapitalizationType="none"></TextField>
             </StackLayout>
 
-            <StackLayout class="input-field">
+            <StackLayout class="input-field" *ngIf="!user">
                 <TextField class="input" hint="Password" secure="true" autocorrect="false"
                     autocapitalizationType="none">
                 </TextField>
             </StackLayout>
 
-            <StackLayout class="input-field">
+            <StackLayout class="input-field" *ngIf="!user">
                 <TextField class="input" hint="Confirm Password" secure="true" autocorrect="false"
                     autocapitalizationType="none">
                 </TextField>
             </StackLayout>
 
             <Label text="or" class="text-center h3 text-white" verticalOrientation="center"
-                horizontalOrientation="center"></Label>
+                horizontalOrientation="center" *ngIf="!user"></Label>
+            <Button text="Google Account" class="btn btn-primary google" (tap)="googleLogin()" *ngIf="!user"></Button>
         </StackLayout>
-        <Button text="Google Account" class="btn btn-primary google" (tap)="googleRegister()"></Button>
+
+        <Label text="Date of Birth" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DatePicker (loaded)="onPickerLoaded($event)" (dateChange)="onDateChanged($event)"
+                (dayChange)="onDateChanged($event)" (monthChange)="onDateChanged($event)"
+                (yearChange)="onDateChanged($event)" verticalAlignment="center" class="date-picker"></DatePicker>
+        </StackLayout>
+
+        <Label text="Location" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+
+        </StackLayout>
+
+        <Label text="Occupation" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+
+        </StackLayout>
+
+        <Label text="Income Range" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+
+        </StackLayout>
 
 
-        <Button text="Register" class="btn btn-primary" [nsRouterLink]="['/home']" pageTransition="slide"
+        <Button text="Register" class="btn btn-primary register" (tap)="register()" pageTransition="slide"
             clearHistory="true"></Button>
     </StackLayout>
-</FlexboxLayout>
+</ScrollView>
+
+<ng-template #Loading>
+    <StackLayout class="form">
+        <Label text="Loading" class="title"></Label>
+    </StackLayout>
+</ng-template>

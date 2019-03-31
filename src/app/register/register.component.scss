@@ -3,11 +3,14 @@
     align-items: center;
     flex-direction: column;
     background-color: #3A53FF;
+    height: 100%;
+    width: 100%;
 }
 
 .form {
-    margin-left: 30;
-    margin-right: 30;
+    margin-top: 50;
+    // margin-left: 30;
+    // margin-right: 30;
     flex-grow: 2;
     vertical-align: middle;
     padding: 0dp 10dp;
@@ -40,7 +43,17 @@
     font-weight: 600;
 }
 
+.register {
+    margin-top: 50;
+    margin-bottom: 100;
+}
+
 .google {
     background-color: #DB4437;
     color: white;
+}
+
+.date-picker {
+    padding: 0;
+    height: 150;
 }

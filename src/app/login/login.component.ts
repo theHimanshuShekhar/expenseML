@@ -10,6 +10,7 @@ import { RouterExtensions } from "nativescript-angular/router";
     moduleId: module.id
 })
 export class LoginComponent implements OnInit {
+    message;
     constructor(
         private page: Page,
         private auth: AuthService,
@@ -20,6 +21,6 @@ export class LoginComponent implements OnInit {
     }
 
     googleLogin() {
-        this.auth.loginGoogle();
+        this.auth.loginGoogle().then((message) => this.message = message);
     }
 }
