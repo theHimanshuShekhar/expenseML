@@ -50,7 +50,9 @@ export class AppComponent implements OnInit {
 
         return this._sideDrawerTransition;
     }
-
+    onDrawerOpening(args) {
+        this.getCurrentUser();
+    }
     isComponentSelected(url: string): boolean {
         return this._activatedUrl === url;
     }
