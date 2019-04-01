@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '~/app/services/data.service';
+import { SelectedIndexChangedEventData } from "nativescript-drop-down";
 
 @Component({
   selector: 'ns-edit-entry',
@@ -10,8 +11,10 @@ import { DataService } from '~/app/services/data.service';
   moduleId: module.id,
 })
 export class EditEntryComponent implements OnInit {
+  categories = ["Food & Groceries", "Transport", "Bills", "Healthcare", "Entertainment", "Misc"];
   disablebtn = false;
   isupdate = false;
+  selectedIndex;
   date;
   eid;
   data = {
@@ -50,4 +53,7 @@ export class EditEntryComponent implements OnInit {
     this.router.back();
   }
 
+  onchange(args: SelectedIndexChangedEventData) {
+    this.data.category = this.categories[args.newIndex];
+  }
 }

@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "604289387149-rqpmb5atd14ad037j1qn5he9mcgnf787.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hshekhar.expenseML",
+            "certificate_hash": "c2ddf2a844bbb1efc96d41c0ff059585d5502ace"
+          }
+        },
+        {
+          "client_id": "604289387149-gr31f8tvtp5ofjuei9ges661u5hej5k9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.hshekhar.expenseML",
+            "certificate_hash": "0827bfe6d0b7b77074a351dd9b07a5c97f7a63e1"
+          }
+        },
+        {
           "client_id": "604289387149-4ppmvku6553q5r0u0f5huiac9n5cg54g.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -28,6 +28,15 @@
             </TextField>
         </StackLayout>
 
+        
+        <StackLayout class="input-field">
+            <DropDown #dd
+            backroundColor="red"
+            [items]="categories"
+            [(ngModel)]="selectedIndex"
+            (selectedIndexChanged)="onchange($event)"></DropDown>
+        </StackLayout>
+
         <Button text="{{eid ? 'Update Entry' : 'Add Entry'}}" class="btn btn-primary" (tap)="addEntry()"
             pageTransition="slide" clearHistory="true"></Button>
     </StackLayout>
