@@ -35,21 +35,31 @@
         </StackLayout>
 
         <Label text="Location" class="text-left h3 text-white" verticalOrientation="center"
-            horizontalOrientation="left"></Label>
+            horizontalOrientation="left"></Label>    
+            
         <StackLayout class="input-field">
-
+            <DropDown #dd
+            backroundColor="red"
+            [items]="locations"
+            (selectedIndexChanged)="onLocChange($event)"></DropDown>
         </StackLayout>
 
         <Label text="Occupation" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
         <StackLayout class="input-field">
-
+            <DropDown #dd
+            backroundColor="red"
+            [items]="occupations"
+            (selectedIndexChanged)="onOccChange($event)"></DropDown>
         </StackLayout>
 
         <Label text="Income Range" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
         <StackLayout class="input-field">
-
+            <DropDown #dd
+            backroundColor="red"
+            [items]="incomeranges"
+            (selectedIndexChanged)="onIncomeChange($event)"></DropDown>
         </StackLayout>
 
 
