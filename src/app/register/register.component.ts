@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Page } from 'tns-core-modules/ui/page/page';
 import { AuthService } from '../services/auth.service';
 import { DatePicker } from "tns-core-modules/ui/date-picker";
+import { SelectedIndexChangedEventData } from "nativescript-drop-down";
 
 @Component({
   selector: 'ns-register',
@@ -11,6 +12,13 @@ import { DatePicker } from "tns-core-modules/ui/date-picker";
 })
 export class RegisterComponent implements OnInit {
   loading;
+  locations = ["Rural", "Urban", "Semi-Urban", "Metropoliton"];
+  occupations = ["Student", "Service", "Business", "Self-Employed", "Retired"];
+  incomeranges = ["Nil", "Under 10,000", "10,000 - 25,000", "25,000 - 50,000", "50,000 - 1L", "Above 1L"];
+
+  userocc;
+  userincome;
+  userloc;
   user;
   dob;
   constructor(
@@ -40,7 +48,12 @@ export class RegisterComponent implements OnInit {
     console.log("email register");
   }
   googleregister() {
-    this.auth.registerGoogle({ dob: this.dob }).catch((error) => console.log(error));
+    this.auth.registerGoogle({ 
+      dob: this.dob,
+      location: this.userloc,
+      income: this.userincome,
+      occupation: this.userocc
+    }).catch((error) => console.log(error));
   }
 
   onPickerLoaded(args) {
@@ -55,5 +68,17 @@ export class RegisterComponent implements OnInit {
 
   onDateChanged(args) {
     this.dob = args.value;
+  }
+
+  onLocChange(args: SelectedIndexChangedEventData) {
+    this.userloc = this.locations[args.newIndex];
+  }
+
+  onOccChange(args: SelectedIndexChangedEventData) {
+    this.userocc = this.locations[args.newIndex];
+  }
+
+  onIncomeChange(args: SelectedIndexChangedEventData) {
+    this.userincome = this.locations[args.newIndex];
   }
 }

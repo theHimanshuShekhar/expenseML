@@ -29,6 +29,7 @@
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
     "nativescript-angular": "~7.2.1",
+    "nativescript-drop-down": "^5.0.0",
     "nativescript-floatingactionbutton": "^5.0.3",
     "nativescript-plugin-firebase": "^8.1.1",
     "nativescript-statusbar": "^5.0.0",
