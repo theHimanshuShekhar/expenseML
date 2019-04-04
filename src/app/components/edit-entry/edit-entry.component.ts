@@ -42,9 +42,11 @@ export class EditEntryComponent implements OnInit {
 
   addEntry() {
     if (!this.isupdate && this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
+      this.data.value = Number(this.data.value);
       this.dataService.addEntry({ ...this.data, date: this.date });
     }
     if (this.isupdate && this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
+      this.data.value = Number(this.data.value);
       this.dataService.updateEntry({ ...this.data, date: this.date, eid: this.eid });
     }
   }
