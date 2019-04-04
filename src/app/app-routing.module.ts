@@ -8,6 +8,7 @@ import { EditEntryComponent } from "./components/edit-entry/edit-entry.component
 import { BrowseComponent } from "./browse/browse.component";
 import { SearchComponent } from "./search/search.component";
 import { HomeComponent } from "./home/home.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
@@ -18,10 +19,7 @@ const routes: Routes = [
     { path: "register", component: RegisterComponent },
     { path: "browse", component: BrowseComponent },
     { path: "search", component: SearchComponent },
-    {
-        path: "settings",
-        loadChildren: "~/app/settings/settings.module#SettingsModule"
-    }
+    { path: "settings", component: SettingsComponent }
 ];
 
 @NgModule({

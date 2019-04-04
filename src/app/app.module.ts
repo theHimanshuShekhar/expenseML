@@ -18,6 +18,7 @@ import { ReportComponent } from "./home/components/report/report.component";
 import { HomeComponent } from "./home/home.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { SearchComponent } from "./search/search.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -38,7 +39,8 @@ import { SearchComponent } from "./search/search.component";
         ReportComponent,
         HomeComponent,
         BrowseComponent,
-        SearchComponent
+        SearchComponent,
+        SettingsComponent
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })
