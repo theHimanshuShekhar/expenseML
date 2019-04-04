@@ -48,7 +48,7 @@ export class RegisterComponent implements OnInit {
     console.log("email register");
   }
   googleregister() {
-    this.auth.registerGoogle({ 
+    this.auth.registerGoogle({
       dob: this.dob,
       location: this.userloc,
       income: this.userincome,
@@ -75,10 +75,10 @@ export class RegisterComponent implements OnInit {
   }
 
   onOccChange(args: SelectedIndexChangedEventData) {
-    this.userocc = this.locations[args.newIndex];
+    this.userocc = this.occupations[args.newIndex];
   }
 
   onIncomeChange(args: SelectedIndexChangedEventData) {
-    this.userincome = this.locations[args.newIndex];
+    this.userincome = this.incomeranges[args.newIndex];
   }
 }
