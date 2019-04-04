@@ -5,16 +5,19 @@ import { LoginComponent } from "./login/login.component";
 import { RegisterComponent } from "./register/register.component";
 import { LandingComponent } from "./landing/landing.component";
 import { EditEntryComponent } from "./components/edit-entry/edit-entry.component";
+import { BrowseComponent } from "./browse/browse.component";
+import { SearchComponent } from "./search/search.component";
+import { HomeComponent } from "./home/home.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/home", pathMatch: "full" },
-    { path: "home", loadChildren: "~/app/home/home.module#HomeModule" },
+    { path: "home", component: HomeComponent },
     { path: "landing", component: LandingComponent },
     { path: "login", component: LoginComponent },
     { path: "editentry", component: EditEntryComponent },
     { path: "register", component: RegisterComponent },
-    { path: "browse", loadChildren: "~/app/browse/browse.module#BrowseModule" },
-    { path: "search", loadChildren: "~/app/search/search.module#SearchModule" },
+    { path: "browse", component: BrowseComponent },
+    { path: "search", component: SearchComponent },
     {
         path: "settings",
         loadChildren: "~/app/settings/settings.module#SettingsModule"

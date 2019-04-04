@@ -7,6 +7,7 @@ import { registerElement } from "nativescript-angular/element-registry";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseService } from "../services/firebase.service";
 import { firestore } from "nativescript-plugin-firebase";
+import { MLService } from "../services/ml.service";
 registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
 @Component({
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit {
         private firebaseService: FirebaseService,
         private dataService: DataService,
         private auth: AuthService,
+        private mlservice: MLService,
         private zone: NgZone,
         private router: RouterExtensions) {
         // Use the component constructor to inject providers.
@@ -36,6 +38,7 @@ export class HomeComponent implements OnInit {
                 this.user = user;
                 this.currDate = new Date();
                 this.onDateNav();
+                this.mlservice.checkUserModel(user);
             }
         }).catch(() => {
             this.auth.redirect("landing");
