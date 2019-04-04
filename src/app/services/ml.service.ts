@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { firestore } from 'nativescript-plugin-firebase';
 
+
+// import * as brain from "brain.js";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -97,10 +100,25 @@ export class MLService {
 
   createModel(userdocref) {
     // Create user model
-    console.log("size:", this.inputs.length);
-    console.log("inputs:", this.inputs);
-    console.log("outputs:", this.outputs);
+    console.log("size of data:", this.inputs.length);
+    console.log("inputs:", JSON.stringify(this.inputs));
+    console.log("outputs:", JSON.stringify(this.outputs));
 
+    // const net = new brain.NeuralNetwork();
+    // const config = {
+    //   binaryThresh: 0.5,
+    //   hiddenLayers: [3],     // array of ints for the sizes of the hidden layers in the network
+    //   activation: "tanh"  // supported activation types: ['sigmoid', 'relu', 'leaky-relu', 'tanh'],
+    // };
+
+    // const data = [];
+    // this.inputs.forEach((inputarr, i) => {
+    //   data.push({ input: inputarr, output: this.outputs[i] });
+    // });
+    // console.log(data[0].input);
+
+    // net.train(data);
+    // // const output = net.run([]);
   }
 
   trainModel(data) {
