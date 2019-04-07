@@ -1,8 +1,8 @@
 <ScrollView orientation="vertical" class="page">
-    <StackLayout class="form" *ngIf="!loading; else Loading">
+    <StackLayout class="form" *ngIf="!showLoading else Loading">
         <Label text="expenseML" class="title"></Label>
         <StackLayout>
-            <StackLayout class="input-field">
+            <!-- <StackLayout class="input-field">
                 <Label *ngIf="user" text="{{user.email}}" class="text-left h3" verticalOrientation="center"
                     horizontalOrientation="left"></Label>
                 <TextField *ngIf="!user" class="input" hint="Email" keyboardType="email" autocorrect="false"
@@ -23,7 +23,16 @@
 
             <Label text="or" class="text-center h3 text-white" verticalOrientation="center"
                 horizontalOrientation="center" *ngIf="!user"></Label>
-            <Button text="Google Account" class="btn btn-primary google" (tap)="googleLogin()" *ngIf="!user"></Button>
+            -->
+            <Button text="Link Google Account" class="btn btn-primary google" (tap)="googleLogin()"
+                *ngIf="!user"></Button>
+        </StackLayout>
+
+        <Label *ngIf="user" text="Registering with Email" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field" *ngIf="user">
+            <Label *ngIf="user" text="{{user.email}}" class="text-left h3" verticalOrientation="center"
+                horizontalOrientation="left"></Label>
         </StackLayout>
 
         <Label text="Date of Birth" class="text-left h3 text-white" verticalOrientation="center"
@@ -34,32 +43,56 @@
                 (yearChange)="onDateChanged($event)" verticalAlignment="center" class="date-picker"></DatePicker>
         </StackLayout>
 
-        <Label text="Location" class="text-left h3 text-white" verticalOrientation="center"
-            horizontalOrientation="left"></Label>    
-            
-        <StackLayout class="input-field">
-            <DropDown #dd
-            backroundColor="red"
-            [items]="locations"
-            (selectedIndexChanged)="onLocChange($event)"></DropDown>
-        </StackLayout>
 
-        <Label text="Occupation" class="text-left h3 text-white" verticalOrientation="center"
+        <Label text="Annual Family Income" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
         <StackLayout class="input-field">
-            <DropDown #dd
-            backroundColor="red"
-            [items]="occupations"
-            (selectedIndexChanged)="onOccChange($event)"></DropDown>
+            <DropDown #dd backroundColor="red" [items]="incomeranges" (selectedIndexChanged)="onIncomeChange($event)">
+            </DropDown>
         </StackLayout>
 
-        <Label text="Income Range" class="text-left h3 text-white" verticalOrientation="center"
+        <Label text="Monthly Allowance" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
         <StackLayout class="input-field">
-            <DropDown #dd
-            backroundColor="red"
-            [items]="incomeranges"
-            (selectedIndexChanged)="onIncomeChange($event)"></DropDown>
+            <DropDown #dd backroundColor="red" [items]="allowance" (selectedIndexChanged)="onAllowanceChange($event)">
+            </DropDown>
+        </StackLayout>
+
+        <Label text="Residential Status" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DropDown #dd backroundColor="red" [items]="residential"
+                (selectedIndexChanged)="onResidentialChange($event)">
+            </DropDown>
+        </StackLayout>
+
+        <Label text="Daily Mode of Transport" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DropDown #dd backroundColor="red" [items]="modesoftransport"
+                (selectedIndexChanged)="onTransportChange($event)">
+            </DropDown>
+        </StackLayout>
+
+        <Label text="Type of College" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DropDown #dd backroundColor="red" [items]="colleges" (selectedIndexChanged)="onCollegeChange($event)">
+            </DropDown>
+        </StackLayout>
+
+        <Label text="Current Degree" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DropDown #dd backroundColor="red" [items]="degrees" (selectedIndexChanged)="onDegreeChange($event)">
+            </DropDown>
+        </StackLayout>
+
+        <Label text="Field of Education" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DropDown #dd backroundColor="red" [items]="fields" (selectedIndexChanged)="onFieldChange($event)">
+            </DropDown>
         </StackLayout>
 
 
@@ -68,8 +101,7 @@
     </StackLayout>
 </ScrollView>
 
+
 <ng-template #Loading>
-    <StackLayout class="form">
-        <Label text="Loading" class="title"></Label>
-    </StackLayout>
+    <ns-loading></ns-loading>
 </ng-template>

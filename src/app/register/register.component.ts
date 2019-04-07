@@ -11,23 +11,36 @@ import { SelectedIndexChangedEventData } from "nativescript-drop-down";
   moduleId: module.id,
 })
 export class RegisterComponent implements OnInit {
-  loading;
-  locations = ["Rural", "Urban", "Semi-Urban", "Metropoliton"];
-  occupations = ["Student", "Service", "Business", "Self-Employed", "Retired"];
-  incomeranges = ["Nil", "Under 10,000", "10,000 - 25,000", "25,000 - 50,000", "50,000 - 1L", "Above 1L"];
 
-  userocc;
-  userincome;
-  userloc;
+  // New dropdowns
+  incomeranges = ["Under 1L", "Under 5L", "Under 10L", "Above 10L"];
+  allowance = ["Nil", "Under Rs.500", "Under Rs.1000", "Between Rs.1000 to Rs.5000", "Above Rs.5000"];
+  residential = ["Local", "Outside Town"];
+  modesoftransport = ["Walking", "Auto Rickshaw", "Bus", "Train", "Taxi", "Personal Vehicle"];
+  colleges = ["Aided", "Un-Aided"];
+  degrees = ["High School", "Undergraduate", "Graduate", "Postgraduate"];
+  fields = ["Arts", "Science", "Commerce", "Computer Science / IT", "Management", "Hotel Management"];
+
+  userdata = {
+    dob: null,
+    familyincome: null,
+    allowance: null,
+    residential: null,
+    modeoftransport: null,
+    college: null,
+    education: null,
+    edufield: null
+  };
+
+  showLoading;
   user;
-  dob;
   constructor(
     private page: Page,
     private auth: AuthService) { }
 
   ngOnInit() {
     this.page.actionBarHidden = true;
-    this.loading = false;
+    this.showLoading = false;
   }
 
   googleLogin() {
@@ -37,6 +50,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.showLoading = true;
     if (this.user) {
       this.googleregister();
     } else {
@@ -48,12 +62,7 @@ export class RegisterComponent implements OnInit {
     console.log("email register");
   }
   googleregister() {
-    this.auth.registerGoogle({
-      dob: this.dob,
-      location: this.userloc,
-      income: this.userincome,
-      occupation: this.userocc
-    }).catch((error) => console.log(error));
+    this.auth.registerGoogle(this.userdata).catch((error) => console.log(error));
   }
 
   onPickerLoaded(args) {
@@ -67,18 +76,34 @@ export class RegisterComponent implements OnInit {
   }
 
   onDateChanged(args) {
-    this.dob = args.value;
-  }
-
-  onLocChange(args: SelectedIndexChangedEventData) {
-    this.userloc = this.locations[args.newIndex];
-  }
-
-  onOccChange(args: SelectedIndexChangedEventData) {
-    this.userocc = this.occupations[args.newIndex];
+    this.userdata.dob = args.value;
   }
 
   onIncomeChange(args: SelectedIndexChangedEventData) {
-    this.userincome = this.incomeranges[args.newIndex];
+    this.userdata.familyincome = this.incomeranges[args.newIndex];
   }
+
+  onAllowanceChange(args: SelectedIndexChangedEventData) {
+    this.userdata.allowance = this.allowance[args.newIndex];
+  }
+
+  onResidentialChange(args: SelectedIndexChangedEventData) {
+    this.userdata.residential = this.residential[args.newIndex];
+  }
+
+  onTransportChange(args: SelectedIndexChangedEventData) {
+    this.userdata.modeoftransport = this.modesoftransport[args.newIndex];
+  }
+
+  onCollegeChange(args: SelectedIndexChangedEventData) {
+    this.userdata.college = this.colleges[args.newIndex];
+  }
+
+  onDegreeChange(args: SelectedIndexChangedEventData) {
+    this.userdata.education = this.degrees[args.newIndex];
+  }
+  onFieldChange(args: SelectedIndexChangedEventData) {
+    this.userdata.edufield = this.fields[args.newIndex];
+  }
+
 }

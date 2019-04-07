@@ -1,5 +1,5 @@
 <FlexboxLayout class="page">
-    <StackLayout class="form">
+    <StackLayout class="form" *ngIf="!showLoading else Loading">
         <Label text="expenseML" class="title"></Label>
         <Label text="{{message}}" class="text-white text-center h3"></Label>
         <StackLayout class="input-field">
@@ -17,3 +17,9 @@
         <Button text="Google" class="btn btn-primary google" (tap)="googleLogin()"></Button>
     </StackLayout>
 </FlexboxLayout>
+
+
+
+<ng-template #Loading>
+    <ns-loading></ns-loading>
+</ng-template>

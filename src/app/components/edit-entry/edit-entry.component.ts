@@ -14,6 +14,7 @@ export class EditEntryComponent implements OnInit {
   categories = ["Food & Groceries", "Transport", "Bills", "Healthcare", "Entertainment", "Misc"];
   disablebtn = false;
   isupdate = false;
+  showLoading;
   selectedIndex;
   date;
   eid;
@@ -44,10 +45,12 @@ export class EditEntryComponent implements OnInit {
     if (!this.isupdate && this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
       this.data.value = Number(this.data.value);
       this.dataService.addEntry({ ...this.data, date: this.date });
+      this.showLoading = true;
     }
     if (this.isupdate && this.disablebtn === false && this.data.category && this.data.value && this.data.desc) {
       this.data.value = Number(this.data.value);
       this.dataService.updateEntry({ ...this.data, date: this.date, eid: this.eid });
+      this.showLoading = true;
     }
   }
 

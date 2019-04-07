@@ -33,8 +33,9 @@ export class DataService {
     // });
     updateEntry(data) {
         this.firebaseService.getCurrentUser().then((user) => {
-            firestore.collection("users").doc(user.uid).collection("records").doc(this.getDateString(data.date))
-                .collection("records").doc(data.eid).update(data).then(() =>
+            firestore.collection("users").doc(user.uid)
+                .collection("daily").doc(this.getDateString(data.date))
+                .collection("entries").doc(data.eid).update(data).then(() =>
                     this.routerExtention.back());
         });
     }
@@ -43,14 +44,21 @@ export class DataService {
         this.firebaseService.getCurrentUser()
             .then((user) => {
                 const datedoc = firestore.collection("users").doc(user.uid)
-                    .collection("records").doc(this.getDateString(data.date));
+                    .collection("daily").doc(this.getDateString(data.date));
                 datedoc.set({
-                    date: this.getDateString(data.date),
-                    estimate: null
+                    rid: this.getDateString(data.date),
+                    date: data.date,
+                    estimate: 0,
+                    foodandgroceries: 0,
+                    transport: 0,
+                    bills: 0,
+                    healthcare: 0,
+                    entertainment: 0,
+                    misc: 0
                 })
                     .then(() => {
                         console.log("Date doc created");
-                        const record = datedoc.collection("records").doc();
+                        const record = datedoc.collection("entries").doc();
                         data = { eid: record.id, ...data };
                         record.set(data).then(() => console.log("record added"))
                             .then(() => {

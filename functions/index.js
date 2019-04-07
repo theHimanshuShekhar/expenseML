@@ -13,16 +13,50 @@ const afs = admin.firestore();
 // });
 
 exports.onEntryAdd = functions.firestore
-    .document("users/{uid}/records/{rid}/records/{eid}").onCreate((snap, context) => {
+    .document("users/{uid}/daily/{rid}/entries/{eid}").onCreate((snap, context) => {
         const entry = snap.data();
+        updateDateData(entry, context.params.rid, context.params.uid);
         return createAnalyticsData(entry, context.params.uid);
     });
 
 exports.onEntryUpdate = functions.firestore
-    .document("users/{uid}/records/{rid}/records/{eid}").onUpdate((snap, context) => {
+    .document("users/{uid}/daily/{rid}/entries/{eid}").onUpdate((snap, context) => {
         const entry = snap.after.data();
+        updateDateData(entry, context.params.uid, context.params.uid);
         return createAnalyticsData(entry, context.params.uid);
     });
+
+function updateDateData(entry, rid, uid) {
+    return afs.collection("users").doc(uid).collection("daily").doc(rid).get()
+        .then((snap) => {
+            let datedoc = snape.data();
+            console.log(datedoc);
+
+
+
+
+        }).catch((err) => console.log(err));
+    // const daydoc = {
+    //     foodandgroceries: 0,
+    //     transport: 0,
+    //     bills: 0,
+    //     healthcare: 0,
+    //     entertainment: 0,
+    //     misc: 0
+    // };
+    // // categories = ["Food & Groceries", "Transport", "Bills", "Healthcare", "Entertainment", "Misc"];
+    // switch (entry.category) {
+    //     case "Food & Groceries":
+
+    //         break;
+
+    //     default:
+    //         break;
+    // }
+    // afs.collection("users").doc(uid).collection("daily").doc(rid).update({
+
+    // }).catch((err) => console.log(err));
+}
 
 
 function createAnalyticsData(entry, uid) {

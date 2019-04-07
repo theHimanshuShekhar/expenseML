@@ -24,7 +24,7 @@ export class AuthService {
         return firebase.login({
             type: firebase.LoginType.GOOGLE
         }).then((result) => {
-            this.createUser({ ...data, ...result });
+            this.createUser(data, result);
         },
             (errorMessage) => {
                 console.log(errorMessage);
@@ -36,7 +36,7 @@ export class AuthService {
         // Register email user
     }
 
-    createUser(user) {
+    createUser(data, user) {
         console.log("create user called");
         firestore.collection("users").doc(user.uid)
             .get().then((doc) => {
@@ -48,11 +48,7 @@ export class AuthService {
                         uid: user.uid,
                         name: user.name,
                         email: user.email,
-                        dob: user.dob ? user.dob : null,
-                        datejoined: firestore.FieldValue.serverTimestamp(),
-                        location: user.location ? user.location : null,
-                        occupation: user.occupation ? user.occupation : null,
-                        income: user.income ? user.income : null
+                        ...data
                     })
                         .then(() => this.router.navigateByUrl("/home"))
                         .catch((error) => console.log(error));

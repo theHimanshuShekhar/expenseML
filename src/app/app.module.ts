@@ -19,6 +19,7 @@ import { HomeComponent } from "./home/home.component";
 import { BrowseComponent } from "./browse/browse.component";
 import { SearchComponent } from "./search/search.component";
 import { SettingsComponent } from "./settings/settings.component";
+import { LoadingComponent } from './components/loading/loading.component';
 
 @NgModule({
     bootstrap: [AppComponent],
@@ -40,7 +41,8 @@ import { SettingsComponent } from "./settings/settings.component";
         HomeComponent,
         BrowseComponent,
         SearchComponent,
-        SettingsComponent
+        SettingsComponent,
+        LoadingComponent
     ],
     schemas: [NO_ERRORS_SCHEMA]
 })

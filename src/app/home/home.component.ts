@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
                 this.user = user;
                 this.currDate = new Date();
                 this.onDateNav();
-                this.mlservice.checkUserModel(user);
+                // this.mlservice.checkUserModel(user);
             }
         }).catch(() => {
             this.auth.redirect("landing");
@@ -46,13 +46,12 @@ export class HomeComponent implements OnInit {
     }
 
     getEntries() {
-
         this.entries = [];
         this.firebaseService.getCurrentUser()
             .then((user) => {
 
-                return firestore.collection("users").doc(user.uid).collection("records")
-                    .doc(this.dataService.getDateString(this.currDate)).collection("records")
+                return firestore.collection("users").doc(user.uid).collection("daily")
+                    .doc(this.dataService.getDateString(this.currDate)).collection("entries")
                     .onSnapshot((snapshot) => {
                         this.zone.run(() => {
                             this.entries = [];

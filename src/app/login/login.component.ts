@@ -10,6 +10,8 @@ import { RouterExtensions } from "nativescript-angular/router";
     moduleId: module.id
 })
 export class LoginComponent implements OnInit {
+
+    showLoading = false;
     message;
     constructor(
         private page: Page,
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
     }
 
     googleLogin() {
+        this.showLoading = true;
         this.auth.loginGoogle().then((message) => this.message = message);
     }
 }

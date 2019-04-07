@@ -16,7 +16,7 @@
     <Label class="action-bar-title" text="{{eid ? 'Update Entry' : 'Add Entry'}}"></Label>
 </ActionBar>
 <FlexboxLayout class="page">
-    <StackLayout class="form">
+    <StackLayout class="form" *ngIf="!showLoading else Loading">
         <Label text="{{ date | date:'EEEE , dd MMM yyyy'}}" class="p-0 text-center h2 text-white"></Label>
         <StackLayout class="input-field">
             <TextField class="input" [(ngModel)]="data.desc" hint="Description" autocorrect="true">
@@ -28,16 +28,17 @@
             </TextField>
         </StackLayout>
 
-        
+
         <StackLayout class="input-field">
-            <DropDown #dd
-            backroundColor="red"
-            [items]="categories"
-            [(ngModel)]="selectedIndex"
-            (selectedIndexChanged)="onchange($event)"></DropDown>
+            <DropDown #dd backroundColor="red" [items]="categories" [(ngModel)]="selectedIndex"
+                (selectedIndexChanged)="onchange($event)"></DropDown>
         </StackLayout>
 
         <Button text="{{eid ? 'Update Entry' : 'Add Entry'}}" class="btn btn-primary" (tap)="addEntry()"
             pageTransition="slide" clearHistory="true"></Button>
     </StackLayout>
 </FlexboxLayout>
+
+<ng-template #Loading>
+    <ns-loading></ns-loading>
+</ng-template>
