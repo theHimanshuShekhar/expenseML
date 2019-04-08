@@ -37,6 +37,7 @@ export class EditEntryComponent implements OnInit {
         this.data.desc = params["desc"];
         this.data.value = params["value"];
         this.data.category = params["category"];
+        this.selectedIndex = this.categories.findIndex((elem) => elem === this.data.category);
       }
     });
   }

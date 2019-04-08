@@ -15,22 +15,6 @@ export class DataService {
         private routerExtention: RouterExtensions
     ) { }
 
-    // getDateEntries(date) {
-    //     return
-    // }
-
-
-    //     const recordcollection = .collection("records")
-    //     .doc(date).collection("records");
-
-    // return recordcollection.onSnapshot((snapshot) => {
-    //     let records = {};
-    //     snapshot.forEach((doc) => {
-    //         records = { ...doc.data() };
-    //     });
-
-    //     return records;
-    // });
     updateEntry(data) {
         this.firebaseService.getCurrentUser().then((user) => {
             firestore.collection("users").doc(user.uid)
@@ -48,6 +32,8 @@ export class DataService {
                 datedoc.set({
                     rid: this.getDateString(data.date),
                     date: data.date,
+                    month: new Date(data.date).getMonth(),
+                    year: new Date(data.date).getFullYear(),
                     estimate: 0,
                     foodandgroceries: 0,
                     transport: 0,

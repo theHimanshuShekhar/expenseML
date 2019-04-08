@@ -15,71 +15,171 @@ const afs = admin.firestore();
 exports.onEntryAdd = functions.firestore
     .document("users/{uid}/daily/{rid}/entries/{eid}").onCreate((snap, context) => {
         const entry = snap.data();
-        updateDateData(entry, context.params.rid, context.params.uid);
+        updateDateData({
+            before: 0,
+            after: entry.value,
+            category: entry.category
+        }, context.params.rid, context.params.uid);
         return createAnalyticsData(entry, context.params.uid);
     });
 
 exports.onEntryUpdate = functions.firestore
     .document("users/{uid}/daily/{rid}/entries/{eid}").onUpdate((snap, context) => {
         const entry = snap.after.data();
-        updateDateData(entry, context.params.uid, context.params.uid);
-        return createAnalyticsData(entry, context.params.uid);
+        return updateDateData({
+            before: snap.before.data().value,
+            after: entry.value,
+            category: entry.category
+        }, context.params.rid, context.params.uid);
+    });
+
+exports.onDayUpdate = functions.firestore
+    .document("users/{uid}/daily/{rid}").onUpdate((snap, context) => {
+
+        return updateMonthData(context.params.uid, new Date(snap.after.data().date));
     });
 
 function updateDateData(entry, rid, uid) {
-    return afs.collection("users").doc(uid).collection("daily").doc(rid).get()
+    return afs.collection("users").doc(uid).collection("daily").doc(rid).collection("entries").get()
         .then((snap) => {
-            let datedoc = snape.data();
-            console.log(datedoc);
+
+            let datedoc = {
+                foodandgroceries: 0,
+                transport: 0,
+                bills: 0,
+                healthcare: 0,
+                entertainment: 0,
+                misc: 0
+            };
+            snap.forEach((entrydoc) => {
+                switch (entrydoc.data().category) {
+                    case "Food & Groceries":
+                        datedoc.foodandgroceries = datedoc.foodandgroceries + entrydoc.data().value;
+                        break;
+
+                    case "Transport":
+                        datedoc.transport = datedoc.transport + entrydoc.data().value;
+                        break;
+
+                    case "Bills":
+                        datedoc.bills = datedoc.bills + entrydoc.data().value;
+                        break;
+
+                    case "Healthcare":
+                        datedoc.healthcare = datedoc.healthcare + entrydoc.data().value;
+                        break;
+
+                    case "Entertainment":
+                        datedoc.entertainment = datedoc.entertainment + entrydoc.data().value;
+                        break;
+
+                    case "Misc":
+                        datedoc.misc = datedoc.misc + entrydoc.data().value;
+                        break;
+                }
+            });
 
 
+            return datedoc;
+        }).then((datedoc) => {
 
-
-        }).catch((err) => console.log(err));
-    // const daydoc = {
-    //     foodandgroceries: 0,
-    //     transport: 0,
-    //     bills: 0,
-    //     healthcare: 0,
-    //     entertainment: 0,
-    //     misc: 0
-    // };
-    // // categories = ["Food & Groceries", "Transport", "Bills", "Healthcare", "Entertainment", "Misc"];
-    // switch (entry.category) {
-    //     case "Food & Groceries":
-
-    //         break;
-
-    //     default:
-    //         break;
-    // }
-    // afs.collection("users").doc(uid).collection("daily").doc(rid).update({
-
-    // }).catch((err) => console.log(err));
+            return afs.collection("users").doc(uid).collection("daily").doc(rid).update(datedoc)
+                .then(() => {
+                    return dailyAnalyticsData(uid, datedoc, rid);
+                })
+                .catch((err) => console.log(err));
+        })
+        .catch((err) => console.log(err));
 }
 
+function updateMonthData(uid, date) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    mondate = new Date(date);
+    monthid = months[mondate.getMonth()] + "_" + mondate.getFullYear();
 
-function createAnalyticsData(entry, uid) {
+    afs.collection("users").doc(uid).collection("daily").where("year", "==", mondate.getFullYear()).where("month", "==", mondate.getMonth()).get()
+        .then((snapshot) => {
+            let monthdoc = {
+                monthid: monthid,
+                month: months[mondate.getMonth()],
+                year: mondate.getFullYear(),
+                foodandgroceries: 0,
+                transport: 0,
+                bills: 0,
+                healthcare: 0,
+                entertainment: 0,
+                misc: 0
+            };
+
+            snapshot.forEach((daydoc) => {
+                daydata = daydoc.data();
+
+                monthdoc.foodandgroceries = monthdoc.foodandgroceries + daydata.foodandgroceries;
+                monthdoc.transport = monthdoc.transport + daydata.transport;
+                monthdoc.bills = monthdoc.bills + daydata.bills;
+                monthdoc.healthcare = monthdoc.healthcare + daydata.healthcare;
+                monthdoc.entertainment = monthdoc.entertainment + daydata.entertainment;
+                monthdoc.misc = monthdoc.misc + daydata.misc;
+            });
+
+            return afs.collection("users").doc(uid).collection("monthly").doc(monthid).set(monthdoc)
+                .then(() => monthAnalyticsData(uid, monthdoc))
+                .catch((err) => console.log(err));
+
+        }).catch((err) => console.log(err));
+}
+
+function monthAnalyticsData(uid, doc) {
     return afs.collection("users").doc(uid).get().then((userdoc) => {
         const userdata = userdoc.data();
 
         const record = {
-            location: userdata.location,
-            occupation: userdata.occupation,
-            income: userdata.income,
-            date: new Date(entry.date),
-            category: entry.category,
-            eid: entry.eid,
-            value: Number(entry.value),
-            day: null,
-            month: null,
-            year: null
+            uid: uid,
+            dob: userdata.dob,
+            familyincome: userdata.familyincome,
+            allowance: userdata.allowance,
+            residential: userdata.residential,
+            modeoftransport: userdata.modeoftransport,
+            college: userdata.college,
+            education: userdata.education,
+            edufield: userdata.edufield,
+
+            bills: doc.bills,
+            entertainment: doc.entertainment,
+            foodandgroceries: doc.foodandgroceries,
+            healthcare: doc.healthcare,
+            misc: doc.misc,
+            transport: doc.transport
         };
+        monthlyid = uid + "_" + doc.monthid;
+        return afs.collection("monthlydata").doc(monthlyid).set(record);
+    }).catch((err) => console.log(err));
+}
 
-        record.day = record.date.getDay();
-        record.month = record.date.getMonth();
-        record.year = record.date.getFullYear();
 
-        return afs.collection("data").doc(record.eid).set(record);
+function dailyAnalyticsData(uid, doc, rid) {
+    return afs.collection("users").doc(uid).get().then((userdoc) => {
+        const userdata = userdoc.data();
+
+        const record = {
+            uid: uid,
+            dob: userdata.dob,
+            familyincome: userdata.familyincome,
+            allowance: userdata.allowance,
+            residential: userdata.residential,
+            modeoftransport: userdata.modeoftransport,
+            college: userdata.college,
+            education: userdata.education,
+            edufield: userdata.edufield,
+
+            bills: doc.bills,
+            entertainment: doc.entertainment,
+            foodandgroceries: doc.foodandgroceries,
+            healthcare: doc.healthcare,
+            misc: doc.misc,
+            transport: doc.transport
+        };
+        dailyid = uid + "_" + rid;
+        return afs.collection("dailydata").doc(dailyid).set(record);
     }).catch((err) => console.log(err));
 }
