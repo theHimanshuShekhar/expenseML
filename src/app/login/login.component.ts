@@ -24,6 +24,9 @@ export class LoginComponent implements OnInit {
 
     googleLogin() {
         this.showLoading = true;
-        this.auth.loginGoogle().then((message) => this.message = message);
+        this.auth.loginGoogle().then((message) => {
+            this.showLoading = false;
+            this.message = message;
+        });
     }
 }
