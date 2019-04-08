@@ -51,12 +51,18 @@
             </DropDown>
         </StackLayout>
 
-        <Label text="Monthly Allowance" class="text-left h3 text-white" verticalOrientation="center"
+        <Label text="Monthly Allowance" class="text-white text-left h3"></Label>
+        <StackLayout class="input-field">
+            <TextField class="input" hint="Monthly Allowance" keyboardType="number" autocorrect="false"
+                autocapitalizationType="none" [(ngModel)]="userdata.allowance"></TextField>
+        </StackLayout>
+
+        <!-- <Label text="Monthly Allowance" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
         <StackLayout class="input-field">
             <DropDown #dd backroundColor="red" [items]="allowance" (selectedIndexChanged)="onAllowanceChange($event)">
             </DropDown>
-        </StackLayout>
+        </StackLayout> -->
 
         <Label text="Residential Status" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>

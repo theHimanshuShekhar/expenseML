@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
 
   // New dropdowns
   incomeranges = ["Under 1L", "Under 5L", "Under 10L", "Above 10L"];
-  allowance = ["Nil", "Under Rs.500", "Under Rs.1000", "Between Rs.1000 to Rs.5000", "Above Rs.5000"];
+  // allowance = ["Nil", "Under Rs.500", "Under Rs.1000", "Between Rs.1000 to Rs.5000", "Above Rs.5000"];
   residential = ["Local", "Outside Town"];
   modesoftransport = ["Walking", "Auto Rickshaw", "Bus", "Train", "Taxi", "Personal Vehicle"];
   colleges = ["Aided", "Un-Aided"];
@@ -62,6 +62,7 @@ export class RegisterComponent implements OnInit {
     console.log("email register");
   }
   googleregister() {
+    this.userdata.allowance = Number(this.userdata.allowance);
     this.auth.registerGoogle(this.userdata).catch((error) => console.log(error));
   }
 
@@ -83,9 +84,9 @@ export class RegisterComponent implements OnInit {
     this.userdata.familyincome = this.incomeranges[args.newIndex];
   }
 
-  onAllowanceChange(args: SelectedIndexChangedEventData) {
-    this.userdata.allowance = this.allowance[args.newIndex];
-  }
+  // onAllowanceChange(args: SelectedIndexChangedEventData) {
+  //   this.userdata.allowance = this.allowance[args.newIndex];
+  // }
 
   onResidentialChange(args: SelectedIndexChangedEventData) {
     this.userdata.residential = this.residential[args.newIndex];
