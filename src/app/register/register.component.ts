@@ -14,12 +14,13 @@ export class RegisterComponent implements OnInit {
 
   // New dropdowns
   incomeranges = ["Under 1L", "Under 5L", "Under 10L", "Above 10L"];
-  // allowance = ["Nil", "Under Rs.500", "Under Rs.1000", "Between Rs.1000 to Rs.5000", "Above Rs.5000"];
+  // allowance = ["Under Rs.500", "Under Rs.1000", "Between Rs.1000 to Rs.5000", "Above Rs.5000"];
   residential = ["Local", "Outside Town"];
   modesoftransport = ["Walking", "Auto Rickshaw", "Bus", "Train", "Taxi", "Personal Vehicle"];
   colleges = ["Aided", "Un-Aided"];
   degrees = ["High School", "Undergraduate", "Graduate", "Postgraduate"];
   fields = ["Arts", "Science", "Commerce", "Computer Science / IT", "Management", "Hotel Management"];
+  gender = ["Male", "Female"];
 
   userdata = {
     dob: null,
@@ -29,7 +30,8 @@ export class RegisterComponent implements OnInit {
     modeoftransport: null,
     college: null,
     education: null,
-    edufield: null
+    edufield: null,
+    gender: null
   };
 
   showLoading;
@@ -105,6 +107,10 @@ export class RegisterComponent implements OnInit {
   }
   onFieldChange(args: SelectedIndexChangedEventData) {
     this.userdata.edufield = this.fields[args.newIndex];
+  }
+
+  onGenderChange(args: SelectedIndexChangedEventData) {
+    this.userdata.gender = this.gender[args.newIndex];
   }
 
 }

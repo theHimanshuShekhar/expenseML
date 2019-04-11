@@ -35,6 +35,14 @@
                 horizontalOrientation="left"></Label>
         </StackLayout>
 
+
+        <Label text="Gender" class="text-left h3 text-white" verticalOrientation="center"
+            horizontalOrientation="left"></Label>
+        <StackLayout class="input-field">
+            <DropDown #dd backroundColor="red" [items]="gender" (selectedIndexChanged)="onGenderChange($event)">
+            </DropDown>
+        </StackLayout>
+
         <Label text="Date of Birth" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
         <StackLayout class="input-field">
@@ -42,7 +50,6 @@
                 (dayChange)="onDateChanged($event)" (monthChange)="onDateChanged($event)"
                 (yearChange)="onDateChanged($event)" verticalAlignment="center" class="date-picker"></DatePicker>
         </StackLayout>
-
 
         <Label text="Annual Family Income" class="text-left h3 text-white" verticalOrientation="center"
             horizontalOrientation="left"></Label>
