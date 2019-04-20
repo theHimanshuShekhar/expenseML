@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+var json2csv = require('json2csv');
 admin.initializeApp();
 
 
@@ -182,4 +183,34 @@ function dailyAnalyticsData(uid, doc, rid) {
         dailyid = uid + "_" + rid;
         return afs.collection("dailydata").doc(dailyid).set(record);
     }).catch((err) => console.log(err));
+}
+
+exports.onDailyAdd = functions.firestore
+    .document("dailydata/{docid}").onUpdate((snap, context) => {
+        return afs.collection("dailydata").get().then((snapshot) => {
+            const data = [];
+            snapshot.forEach((snap) => {
+                const daydoc = snap.data();
+                daydoc.age = calculate_age(daydoc.dob.toDate());
+                data.push(daydoc);
+            });
+
+            return data;
+        }).then((jsondata) => {
+
+            setTimeout(() => {
+                console.log("Size: ", jsondata.length);
+                console.log(jsondata);
+            }, 20000);
+
+            return true;
+        });
+    });
+
+
+function calculate_age(dob) {
+    var diff_ms = Date.now() - dob.getTime();
+    var age_dt = new Date(diff_ms);
+
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
