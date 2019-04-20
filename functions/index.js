@@ -171,7 +171,7 @@ function dailyAnalyticsData(uid, doc, rid) {
             college: userdata.college,
             education: userdata.education,
             edufield: userdata.edufield,
-
+            date: doc.date,
             bills: doc.bills,
             entertainment: doc.entertainment,
             foodandgroceries: doc.foodandgroceries,
