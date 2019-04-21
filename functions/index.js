@@ -1,17 +1,18 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
-var json2csv = require('json2csv');
 admin.initializeApp();
-
 
 const afs = admin.firestore();
 
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
-//
-// exports.helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+// Machine Learning imports
+const tf = require("@tensorflow/tfjs");
+require("tfjs-node-save");
+
+const path = require('path');
+const os = require('os');
+const fs = require('fs');
+
+
 
 exports.onEntryAdd = functions.firestore
     .document("users/{uid}/daily/{rid}/entries/{eid}").onCreate((snap, context) => {
@@ -21,7 +22,7 @@ exports.onEntryAdd = functions.firestore
             after: entry.value,
             category: entry.category
         }, context.params.rid, context.params.uid);
-        return createAnalyticsData(entry, context.params.uid);
+        return true;
     });
 
 exports.onEntryUpdate = functions.firestore
@@ -36,9 +37,22 @@ exports.onEntryUpdate = functions.firestore
 
 exports.onDayUpdate = functions.firestore
     .document("users/{uid}/daily/{rid}").onUpdate((snap, context) => {
-
-        return updateMonthData(context.params.uid, new Date(snap.after.data().date));
+        return afs.collection("models").doc("general").get().then(modeldata => {
+            const modeldoc = modeldata.data();
+            const currDate = new Date();
+            const modelDate = modeldoc.date.toDate();
+            const daysElapsed = Math.floor((currDate - modelDate) / (1000 * 60 * 60 * 24));
+            if (daysElapsed >= 7) {
+                return setupGeneralModel();
+            } else {
+                return null;
+            }
+        }).then(() => {
+            setupUserModel();
+            return updateMonthData(context.params.uid, new Date(snap.after.data().date));
+        }).catch((err) => console.log(err));
     });
+
 
 function updateDateData(entry, rid, uid) {
     return afs.collection("users").doc(uid).collection("daily").doc(rid).collection("entries").get()
@@ -98,7 +112,7 @@ function updateMonthData(uid, date) {
     mondate = new Date(date);
     monthid = months[mondate.getMonth()] + "_" + mondate.getFullYear();
 
-    afs.collection("users").doc(uid).collection("daily").where("year", "==", mondate.getFullYear()).where("month", "==", mondate.getMonth()).get()
+    return afs.collection("users").doc(uid).collection("daily").where("year", "==", mondate.getFullYear()).where("month", "==", mondate.getMonth()).get()
         .then((snapshot) => {
             let monthdoc = {
                 monthid: monthid,
@@ -172,7 +186,7 @@ function dailyAnalyticsData(uid, doc, rid) {
             college: userdata.college,
             education: userdata.education,
             edufield: userdata.edufield,
-            date: doc.date,
+            // date: doc.date,
             bills: doc.bills,
             entertainment: doc.entertainment,
             foodandgroceries: doc.foodandgroceries,
@@ -185,32 +199,109 @@ function dailyAnalyticsData(uid, doc, rid) {
     }).catch((err) => console.log(err));
 }
 
-exports.onDailyAdd = functions.firestore
-    .document("dailydata/{docid}").onUpdate((snap, context) => {
-        return afs.collection("dailydata").get().then((snapshot) => {
-            const data = [];
-            snapshot.forEach((snap) => {
-                const daydoc = snap.data();
-                daydoc.age = calculate_age(daydoc.dob.toDate());
-                data.push(daydoc);
-            });
-
-            return data;
-        }).then((jsondata) => {
-
-            setTimeout(() => {
-                console.log("Size: ", jsondata.length);
-                console.log(jsondata);
-            }, 20000);
-
-            return true;
-        });
-    });
-
-
 function calculate_age(dob) {
     var diff_ms = Date.now() - dob.getTime();
     var age_dt = new Date(diff_ms);
 
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+
+incomeranges = ["Under 1L", "Under 5L", "Under 10L", "Above 10L"];
+residential = ["Local", "Outside Town"];
+modesoftransport = ["Walking", "Auto Rickshaw", "Bus", "Train", "Taxi", "Personal Vehicle"];
+colleges = ["Aided", "Un-Aided"];
+degrees = ["High School", "Undergraduate", "Graduate", "Postgraduate"];
+fields = ["Arts", "Science", "Commerce", "Computer Science / IT", "Management", "Hotel Management"];
+
+function setupGeneralModel() {
+    return afs.collection("dailydata").get().then((snapshot) => {
+        let inputs = [];
+        let outputs = [];
+        snapshot.forEach(dailydoc => {
+            const dailydata = dailydoc.data();
+            inputs.push([
+                dailydata.allowance,
+                this.incomeranges.indexOf(dailydata.familyincome),
+                this.degrees.indexOf(dailydata.education),
+                this.fields.indexOf(dailydata.edufield),
+                this.colleges.indexOf(dailydata.college),
+                this.modesoftransport.indexOf(dailydata.modeoftransport),
+                getAge(dailydata.dob.toDate()),
+            ]);
+            outputs.push([
+                dailydata.bills +
+                dailydata.entertainment +
+                dailydata.foodandgroceries +
+                dailydata.healthcare +
+                dailydata.transport +
+                dailydata.misc
+            ]);
+        })
+        return trainModel(inputs, outputs);
+    }).catch(err => console.log(err));
+}
+
+async function trainModel(input, output) {
+    console.log("Creating general Model");
+    let train_x = input;
+    let train_y = output;
+
+    const xs = tf.tensor2d(train_x, [train_x.length, 7]);
+    const ys = tf.tensor2d(train_y, [train_y.length, 1]);
+    const model = tf.sequential();
+    model.add(tf.layers.dense({
+        units: 16,
+        batchInputShape: [train_y.length, 7]
+    }));
+    model.add(tf.layers.dense({
+        units: 1
+    }));
+    model.compile({
+        loss: 'meanSquaredError',
+        optimizer: 'sgd'
+    });
+
+    model.compile({
+        loss: 'meanSquaredError',
+        optimizer: 'adam'
+    });
+
+    return await model.fit(xs, ys, {
+        epochs: 16
+    }).then(async () => {
+        console.log("General model trained with " + xs.size + " records.")
+        const tmpdir = os.tmpdir();
+        const modelPath = await path.join(tmpdir, "model");
+        const tempJSONPath = await path.join(modelPath, "model.json");
+        const tempBINPath = await path.join(modelPath, "weights.bin");
+
+        await model.save("file://" + modelPath);
+
+        const bucket = admin.storage().bucket("expense-ml.appspot.com");
+        await bucket.upload(tempJSONPath);
+        await bucket.upload(tempBINPath);
+        console.log("Model uploaded.");
+
+        // Delete the temporary files
+        fs.unlinkSync(tempJSONPath);
+        fs.unlinkSync(tempBINPath);
+        return true;
+    }).then(() => {
+        return afs.collection("models").doc("general").update({
+                sizeofdata: input.length,
+                date: admin.firestore.FieldValue.serverTimestamp()
+            })
+            .then(() => console.log("General model doc updated."))
+            .catch(err => console.log(err));
+    });
+}
+
+function setupUserModel() {
+
+}
+
+function getAge(dob) {
+    const diff_ms = Date.now() - dob.getTime();
+    const age_dt = new Date(diff_ms);
     return Math.abs(age_dt.getUTCFullYear() - 1970);
 }
