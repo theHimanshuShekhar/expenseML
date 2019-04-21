@@ -2,7 +2,13 @@ const functions = require('firebase-functions');
 const admin = require('firebase-admin');
 admin.initializeApp();
 
+const cors = require('cors')({
+    origin: true
+});
+
 const afs = admin.firestore();
+
+
 
 // Machine Learning imports
 const tf = require("@tensorflow/tfjs");
@@ -11,7 +17,6 @@ require("tfjs-node-save");
 const path = require('path');
 const os = require('os');
 const fs = require('fs');
-
 
 
 exports.onEntryAdd = functions.firestore
@@ -175,7 +180,9 @@ function monthAnalyticsData(uid, doc) {
 function dailyAnalyticsData(uid, doc, rid) {
     return afs.collection("users").doc(uid).get().then((userdoc) => {
         const userdata = userdoc.data();
-
+        dailyid = uid + "_" + rid;
+        const datedata = rid.split(uid)[1].split("_").slice(1);
+        const date = new Date(datedata[2], datedata[1], datedata[0]);
         const record = {
             uid: uid,
             dob: userdata.dob,
@@ -186,7 +193,7 @@ function dailyAnalyticsData(uid, doc, rid) {
             college: userdata.college,
             education: userdata.education,
             edufield: userdata.edufield,
-            // date: doc.date,
+            date: date,
             bills: doc.bills,
             entertainment: doc.entertainment,
             foodandgroceries: doc.foodandgroceries,
@@ -194,7 +201,6 @@ function dailyAnalyticsData(uid, doc, rid) {
             misc: doc.misc,
             transport: doc.transport
         };
-        dailyid = uid + "_" + rid;
         return afs.collection("dailydata").doc(dailyid).set(record);
     }).catch((err) => console.log(err));
 }
@@ -221,12 +227,13 @@ function setupGeneralModel() {
             const dailydata = dailydoc.data();
             inputs.push([
                 dailydata.allowance,
-                this.incomeranges.indexOf(dailydata.familyincome),
-                this.degrees.indexOf(dailydata.education),
-                this.fields.indexOf(dailydata.edufield),
-                this.colleges.indexOf(dailydata.college),
-                this.modesoftransport.indexOf(dailydata.modeoftransport),
+                incomeranges.indexOf(dailydata.familyincome),
+                degrees.indexOf(dailydata.education),
+                fields.indexOf(dailydata.edufield),
+                colleges.indexOf(dailydata.college),
+                modesoftransport.indexOf(dailydata.modeoftransport),
                 getAge(dailydata.dob.toDate()),
+                dailydata.date.toDate().getDay()
             ]);
             outputs.push([
                 dailydata.bills +
@@ -246,12 +253,12 @@ async function trainModel(input, output) {
     let train_x = input;
     let train_y = output;
 
-    const xs = tf.tensor2d(train_x, [train_x.length, 7]);
+    const xs = tf.tensor2d(train_x, [train_x.length, 8]);
     const ys = tf.tensor2d(train_y, [train_y.length, 1]);
     const model = tf.sequential();
     model.add(tf.layers.dense({
         units: 16,
-        batchInputShape: [train_y.length, 7]
+        batchInputShape: [train_y.length, 8]
     }));
     model.add(tf.layers.dense({
         units: 1
@@ -276,12 +283,10 @@ async function trainModel(input, output) {
         const tempBINPath = await path.join(modelPath, "weights.bin");
 
         await model.save("file://" + modelPath);
-
         const bucket = admin.storage().bucket("expense-ml.appspot.com");
         await bucket.upload(tempJSONPath);
         await bucket.upload(tempBINPath);
         console.log("Model uploaded.");
-
         // Delete the temporary files
         fs.unlinkSync(tempJSONPath);
         fs.unlinkSync(tempBINPath);
@@ -304,4 +309,57 @@ function getAge(dob) {
     const diff_ms = Date.now() - dob.getTime();
     const age_dt = new Date(diff_ms);
     return Math.abs(age_dt.getUTCFullYear() - 1970);
+}
+
+
+exports.predictGeneral = functions.https.onRequest(async (req, res) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Methods", "GET");
+    res.set("Access-Control-Allow-Headers", "Content-Type");
+    res.set("Access-Control-Max-Age", "3600");
+    // Send response to OPTIONS requests and terminate the function execution
+    if (req.method === 'OPTIONS') {
+        res.status(204).send('');
+    }
+
+    const date = req.query.date;
+    const uid = req.query.uid;
+
+    const bucket = admin.storage().bucket("expense-ml.appspot.com");
+    const tmpdir = os.tmpdir();
+
+    await bucket.file("model.json").download({
+        destination: path.join(tmpdir, "model.json")
+    });
+    await bucket.file("weights.bin").download({
+        destination: path.join(tmpdir, "weights.bin")
+    });
+    const model = await tf.loadLayersModel("file://" + path.join(tmpdir, "model.json"));
+    afs.collection("users").doc(uid).get().then((userdoc) => {
+        const userdata = userdoc.data();
+        const newdate = new Date(date).getDay();
+        const input = [
+            userdata.allowance,
+            incomeranges.indexOf(userdata.familyincome),
+            degrees.indexOf(userdata.education),
+            fields.indexOf(userdata.edufield),
+            colleges.indexOf(userdata.college),
+            modesoftransport.indexOf(userdata.modeoftransport),
+            getAge(userdata.dob.toDate()),
+            newdate
+        ];
+        const prediction = predict(model, input);
+        res.status(200).send({
+            prediction,
+            input
+        });
+        return true;
+    }).catch((err) => console.log(err));
+
+});
+
+function predict(model, input) {
+    const predictdata = tf.tensor2d(input, [1, 8]);
+    const prediction = model.predict(predictdata).dataSync()[0];
+    return Math.ceil(prediction / 10) * 10;
 }

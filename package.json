@@ -29,6 +29,8 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
+    "@tensorflow/tfjs": "^1.1.0",
+    "cors": "^2.8.5",
     "nativescript-angular": "~7.2.1",
     "nativescript-drop-down": "^5.0.0",
     "nativescript-floatingactionbutton": "^5.0.3",
@@ -38,6 +40,7 @@
     "nativescript-ui-sidedrawer": "~5.1.0",
     "reflect-metadata": "~0.1.12",
     "rxjs": "~6.3.0",
+    "tfjs-node-save": "0.0.2",
     "tns-core-modules": "^5.3.1",
     "zone.js": "~0.8.26"
   },

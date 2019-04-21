@@ -1,4 +1,5 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { MLService } from "~/app/services/ml.service";
 
 @Component({
     selector: "ns-report",
@@ -7,7 +8,12 @@ import { Component, OnInit } from "@angular/core";
     moduleId: module.id
 })
 export class ReportComponent implements OnInit {
-    constructor() {}
+    @Input() prediction;
+    @Input() date;
 
-    ngOnInit() {}
+    constructor(private mlService: MLService) { }
+
+    ngOnInit() {
+        // NgOnInit
+    }
 }

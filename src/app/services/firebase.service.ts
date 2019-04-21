@@ -10,6 +10,7 @@ export class FirebaseService {
     constructor() {
         if (!firebase.initialized) {
             firebase.init({
+                storageBucket: "gs://expense-ml.appspot.com",
                 onAuthStateChanged(data) {
                     console.log(data.loggedIn ? "Logged in to firebase" : "Logged out from firebase");
                     if (data.loggedIn) {
@@ -18,6 +19,10 @@ export class FirebaseService {
                 }
             });
         }
+    }
+
+    getFirebase() {
+        return firebase;
     }
 
     getCurrentUser() {

@@ -7,6 +7,7 @@ import { registerElement } from "nativescript-angular/element-registry";
 import { RouterExtensions } from "nativescript-angular/router";
 import { FirebaseService } from "../services/firebase.service";
 import { firestore } from "nativescript-plugin-firebase";
+import { MLService } from "../services/ml.service";
 registerElement("Fab", () => require("nativescript-floatingactionbutton").Fab);
 
 @Component({
@@ -20,12 +21,18 @@ export class HomeComponent implements OnInit {
     dispDate;
     entries = [];
     user;
+    prediction;
+
+    displayReport = true;
+
+    tf;
     constructor(
         private firebaseService: FirebaseService,
         private dataService: DataService,
         private auth: AuthService,
         private zone: NgZone,
-        private router: RouterExtensions) {
+        private router: RouterExtensions,
+        private mlService: MLService) {
         // Use the component constructor to inject providers.
     }
 
@@ -62,6 +69,14 @@ export class HomeComponent implements OnInit {
         sideDrawer.showDrawer();
     }
 
+    predict() {
+        this.prediction = null;
+        this.mlService.predict(this.user.uid, this.currDate).then((data) => {
+            // @ts-ignore
+            this.prediction = JSON.parse(data).prediction;
+        });
+    }
+
     onDateNav(type?) {
         if (type === "right") {
             this.currDate.setDate(this.currDate.getDate() + 1);
@@ -70,8 +85,8 @@ export class HomeComponent implements OnInit {
             this.currDate.setDate(this.currDate.getDate() - 1);
         }
         this.dispDate = this.currDate.toDateString();
-
         this.getEntries();
+        this.predict();
     }
 
     addEntry() {

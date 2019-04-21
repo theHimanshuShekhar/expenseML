@@ -1,6 +1,4 @@
-<StackLayout class="report">
-    <Label textWrap="true" class="reportText" text="Prediction or Report" verticalAlignment="center"
-        horizontalAlignment="center"></Label>
-    <Label textWrap="true" class="reportText" text="(compare with prediction)" verticalAlignment="center"
-        horizontalAlignment="center"></Label>
+<StackLayout class="report" *ngIf="prediction">
+    <Label textWrap="true" class="reportPrediction" text="Predicted Expense Rs.{{prediction}}"
+        verticalAlignment="center" horizontalAlignment="center"></Label>
 </StackLayout>
