@@ -9,11 +9,16 @@ import { MLService } from "~/app/services/ml.service";
 })
 export class ReportComponent implements OnInit {
     @Input() prediction;
-    @Input() date;
+    @Input() total;
 
-    constructor(private mlService: MLService) { }
+    labelText;
+
+    constructor() { }
 
     ngOnInit() {
-        // NgOnInit
+        if (this.total > 0) {
+            const percentage = (this.total / this.prediction) * 100;
+            this.labelText = "You spent " + percentage.toFixed(2) + "% of the estimated expense for the day.";
+        }
     }
 }

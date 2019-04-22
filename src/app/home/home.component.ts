@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
     entries = [];
     user;
     prediction;
+    total;
 
     displayReport = true;
 
@@ -59,7 +60,11 @@ export class HomeComponent implements OnInit {
                     .onSnapshot((snapshot) => {
                         this.zone.run(() => {
                             this.entries = [];
-                            snapshot.forEach((record) => this.entries.push(record.data()));
+                            this.total = 0;
+                            snapshot.forEach((record) => {
+                                this.entries.push(record.data());
+                                this.total += record.data().value;
+                            });
                         });
                     });
             });
@@ -72,8 +77,10 @@ export class HomeComponent implements OnInit {
     predict() {
         this.prediction = null;
         this.mlService.predict(this.user.uid, this.currDate).then((data) => {
-            // @ts-ignore
-            this.prediction = JSON.parse(data).prediction;
+            if (data) {
+                // @ts-ignore
+                this.prediction = JSON.parse(data).prediction;
+            }
         });
     }
 

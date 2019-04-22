@@ -32,7 +32,7 @@
                         text="{{ dispDate | date }}"></Label>
                 </StackLayout>
             </DockLayout>
-            <ns-report *ngIf="user && prediction" [prediction]="prediction"></ns-report>
+            <ns-report *ngIf="(user && prediction) || total" [prediction]="prediction" [total]="total"></ns-report>
             <Label textWrap="true" text="No records for this day!" style="margin-top:25 ;color: white" class="h6"
                 *ngIf="entries.length === 0"></Label>
             <StackLayout class="entries" *ngIf="entries">
