@@ -16,9 +16,5 @@ export class ReportComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        if (this.total > 0) {
-            const percentage = (this.total / this.prediction) * 100;
-            this.labelText = "You spent " + percentage.toFixed(2) + "% of the estimated expense for the day.";
-        }
     }
 }

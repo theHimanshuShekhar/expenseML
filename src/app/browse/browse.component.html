@@ -16,6 +16,19 @@
 </ActionBar>
 
 <GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf1ea;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
+    <StackLayout *ngFor="let month of monthlydata">
+        <StackLayout class="entry">
+            <Label text="{{month.month}}"></Label>
+            <Label text="You spent Rs.{{getTotal(month)}} this month."></Label>
+            <Label *ngIf="user" text="You utilized  {{(getTotal(month) / user.allowance) * 100}}% of your monthly allowance."></Label>
+            
+            <Label text="You spent Rs.{{month.foodandgroceries}} this month."></Label>
+            <Label text="You spent Rs.{{month.transport}} this month."></Label>
+            <Label text="You spent Rs.{{month.bills}} this month."></Label>
+            <Label text="You spent Rs.{{month.healthcare}} this month."></Label>
+            <Label text="You spent Rs.{{month.entertainment}} this month."></Label>
+            <Label text="You spent Rs.{{month.misc}} this month."></Label>
+
+        </StackLayout>
+    </StackLayout>
 </GridLayout>

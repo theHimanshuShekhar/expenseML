@@ -1,6 +1,6 @@
 <StackLayout class="report" *ngIf="prediction">
     <Label textWrap="true" class="reportPrediction" text="Predicted Expense Rs.{{prediction}}"
         verticalAlignment="center" horizontalAlignment="center"></Label>
-    <Label *ngIf="total && total > 0" textWrap="true" class="reportText" text="{{labelText}}" verticalAlignment="center"
+    <Label *ngIf="total && total > 0" textWrap="true" class="reportText" text="You spent {{((total/prediction) * 100).toFixed(2)}}% of the estimated expense for the day." verticalAlignment="center"
         horizontalAlignment="center"></Label>
 </StackLayout>
