@@ -53,7 +53,7 @@ exports.onDayUpdate = functions.firestore
                 return null;
             }
         }).then(() => {
-            setupUserModel();
+            // setupUserModel(context.params.uid);
             return updateMonthData(context.params.uid, new Date(snap.after.data().date));
         }).catch((err) => console.log(err));
     });
@@ -205,13 +205,6 @@ function dailyAnalyticsData(uid, doc, rid) {
     }).catch((err) => console.log(err));
 }
 
-function calculate_age(dob) {
-    var diff_ms = Date.now() - dob.getTime();
-    var age_dt = new Date(diff_ms);
-
-    return Math.abs(age_dt.getUTCFullYear() - 1970);
-}
-
 incomeranges = ["Under 1L", "Under 5L", "Under 10L", "Above 10L"];
 residential = ["Local", "Outside Town"];
 modesoftransport = ["Walking", "Auto Rickshaw", "Bus", "Train", "Taxi", "Personal Vehicle"];
@@ -263,10 +256,6 @@ async function trainModel(input, output) {
     model.add(tf.layers.dense({
         units: 1
     }));
-    model.compile({
-        loss: 'meanSquaredError',
-        optimizer: 'sgd'
-    });
 
     model.compile({
         loss: 'meanSquaredError',
@@ -276,7 +265,7 @@ async function trainModel(input, output) {
     return await model.fit(xs, ys, {
         epochs: 16
     }).then(async () => {
-        console.log("General model trained with " + xs.size + " records.")
+        console.log("General model trained with " + train_x.length + " records.")
         const tmpdir = os.tmpdir();
         const modelPath = await path.join(tmpdir, "model");
         const tempJSONPath = await path.join(modelPath, "model.json");
@@ -301,8 +290,72 @@ async function trainModel(input, output) {
     });
 }
 
-function setupUserModel() {
+function setupUserModel(uid) {
+    return afs.collection("users").doc(uid).collection("daily").get().then(async (snapshot) => {
+        let inputs = [];
+        let outputs = [];
+        snapshot.forEach(dailydoc => {
+            const dailydata = dailydoc.data();
+            const ddate = new Date(dailydata.date);
+            inputs.push([
+                ddate.getDay(),
+                ddate.getDate(),
+                ddate.getMonth(),
+                ddate.getFullYear()
+            ]);
+            outputs.push([
+                dailydata.bills +
+                dailydata.entertainment +
+                dailydata.foodandgroceries +
+                dailydata.healthcare +
+                dailydata.transport +
+                dailydata.misc
+            ]);
+        });
 
+        const xs = tf.tensor2d(inputs, [inputs.length, 4]);
+        const ys = tf.tensor2d(outputs, [outputs.length, 1]);
+        const model = tf.sequential();
+        model.add(tf.layers.dense({
+            units: 16,
+            batchInputShape: [inputs.length, 4]
+        }));
+        model.add(tf.layers.dense({
+            units: 1
+        }));
+        model.compile({
+            loss: 'meanSquaredError',
+            optimizer: 'sgd'
+        });
+
+        return await model.fit(xs, ys, {
+            epochs: 16
+        }).then(async () => {
+            console.log("General model trained with " + inputs.length + " records.")
+            const tmpdir = os.tmpdir();
+            const modelPath = await path.join(tmpdir, "model");
+            const tempJSONPath = await path.join(modelPath, "model.json");
+            const tempBINPath = await path.join(modelPath, "weights.bin");
+
+            await model.save("file://" + uid);
+            const bucket = admin.storage().bucket("expense-ml.appspot.com");
+            await bucket.upload("file://" + uid + "/model.json");
+            await bucket.upload(tempBINPath);
+            console.log("Model uploaded.");
+            // Delete the temporary files
+            fs.unlinkSync(tempJSONPath);
+            fs.unlinkSync(tempBINPath);
+
+            return true;
+        }).then(() => {
+            return afs.collection("users").doc(uid).update({
+                    date: admin.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => console.log("User model doc updated."))
+                .catch(err => console.log(err));
+        });
+
+    }).catch(err => console.log(err));
 }
 
 function getAge(dob) {
