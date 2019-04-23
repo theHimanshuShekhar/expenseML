@@ -1,10 +1,26 @@
 .report {
     background-color: white;
     padding: 10dp;
-    min-height: 150dp;
     color: black;
     font-size: 20;
     border-radius: 5;
+    margin: 10 0;
+}
+
+.categories {
+    background-color: white;
+    padding: 10dp;
+    border-radius: 5;
+    margin-bottom: 10 0;
+}
+
+.categoryname {
+    font-size: 20;
+    font-weight: 600;
+}
+
+.categoryvalue {
+    font-size: 30;
 }
 
 .page {
@@ -21,10 +37,15 @@
     border-radius: 5;
     height: 50dp;
     width: 100%;
-    margin: 10 0;
     color: black;
 }
 
 .container {
     padding: 10;
+}
+
+.chart {
+    background-color: white;
+    margin: 10 0;
+    border-radius: 5;
 }

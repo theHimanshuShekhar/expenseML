@@ -3,7 +3,7 @@ import { FirebaseService } from "./firebase.service";
 import { request, HttpResponse } from "tns-core-modules/http";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
 export class MLService {
   inputs = [];
@@ -19,7 +19,7 @@ export class MLService {
       method: "GET"
     }).then((response: HttpResponse) => {
       console.log("Prediction recieved");
-      if (response.statusCode == 200) {
+      if (response.statusCode === 200) {
         return response.content;
       } else {
         return null;

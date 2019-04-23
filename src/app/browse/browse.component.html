@@ -26,15 +26,29 @@
             <StackLayout *ngIf="selectedMonth" class="report">
                 <Label text="You spent Rs.{{getTotal(selectedMonth)}} this month." textWrap="true"></Label>
                 <Label *ngIf="user"
-                    text="You utilized  {{(getTotal(selectedMonth) / user.allowance) * 100}}% of your monthly allowance."
+                    text="You utilized  {{((getTotal(selectedMonth) / user.allowance) * 100).toFixed(2)}}% of your monthly allowance."
                     textWrap="true"></Label>
-                <Label text="You spent Rs.{{selectedMonth.foodandgroceries}} on Food and Groceries."
-                    textWrap="true"></Label>
-                <Label text="You spent Rs.{{selectedMonth.transport}} on Travel and Transport." textWrap="true"></Label>
-                <Label text="You spent Rs.{{selectedMonth.bills}} on Bills." textWrap="true"></Label>
-                <Label text="You spent Rs.{{selectedMonth.healthcare}} on Healthcare." textWrap="true"></Label>
-                <Label text="You spent Rs.{{selectedMonth.entertainment}} on Entertainment." textWrap="true"></Label>
-                <Label text="You spent Rs.{{selectedMonth.misc}} on Miscellaneous." textWrap="true"></Label>
+            </StackLayout>
+            <StackLayout class="categories" *ngFor="let category of pieData">
+                <Label text="{{category.key}}" class="categoryname" textWrap="true"></Label>
+                <Label text="Rs.{{category.value}}" class="categoryvalue" textWrap="true"></Label>
+            </StackLayout>
+            <StackLayout class="report">
+                <RadPieChart height="500" width="700" allowAnimation="true" *ngIf="pieData">
+                    <DonutSeries tkPieSeries selectionMode="None" [items]="pieData" valueProperty="value"
+                        legendLabel="key" showLabels="false">
+                    </DonutSeries>
+                    <RadLegendView tkPieLegend position="Top" title="Breakdown by Category" titleSize="10"
+                        titleColor="black" enableSelection="true" width="300"></RadLegendView>
+                </RadPieChart>
+            </StackLayout>
+            <StackLayout class="report">
+                <RadCartesianChart height="500" width="700" *ngIf="pieData" title="Breakdown by Category">
+                    <CategoricalAxis tkCartesianVerticalAxis></CategoricalAxis>
+                    <LinearAxis tkCartesianHorizontalAxis></LinearAxis>
+                    <BarSeries tkCartesianSeries [items]="pieData" categoryProperty="key" valueProperty="value">
+                    </BarSeries>
+                </RadCartesianChart>
             </StackLayout>
         </StackLayout>
     </ScrollView>
