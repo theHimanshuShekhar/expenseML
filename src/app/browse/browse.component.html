@@ -14,21 +14,32 @@
     </ActionItem>
     <Label class="action-bar-title" text="Expense Reports"></Label>
 </ActionBar>
+<AbsoluteView>
+    <ScrollView class="page">
+        <StackLayout class="container" *ngIf="selectedMonth else Loading">
+            <StackLayout class="input-field">
+                <DropDown #dd [(ngModel)]="selectedIndex" [items]="months"
+                    (selectedIndexChanged)="onMonthChange($event)">
+                </DropDown>
+            </StackLayout>
 
-<GridLayout class="page page-content">
-    <StackLayout *ngFor="let month of monthlydata">
-        <StackLayout class="entry">
-            <Label text="{{month.month}}"></Label>
-            <Label text="You spent Rs.{{getTotal(month)}} this month."></Label>
-            <Label *ngIf="user" text="You utilized  {{(getTotal(month) / user.allowance) * 100}}% of your monthly allowance."></Label>
-            
-            <Label text="You spent Rs.{{month.foodandgroceries}} this month."></Label>
-            <Label text="You spent Rs.{{month.transport}} this month."></Label>
-            <Label text="You spent Rs.{{month.bills}} this month."></Label>
-            <Label text="You spent Rs.{{month.healthcare}} this month."></Label>
-            <Label text="You spent Rs.{{month.entertainment}} this month."></Label>
-            <Label text="You spent Rs.{{month.misc}} this month."></Label>
-
+            <StackLayout *ngIf="selectedMonth" class="report">
+                <Label text="You spent Rs.{{getTotal(selectedMonth)}} this month." textWrap="true"></Label>
+                <Label *ngIf="user"
+                    text="You utilized  {{(getTotal(selectedMonth) / user.allowance) * 100}}% of your monthly allowance."
+                    textWrap="true"></Label>
+                <Label text="You spent Rs.{{selectedMonth.foodandgroceries}} on Food and Groceries."
+                    textWrap="true"></Label>
+                <Label text="You spent Rs.{{selectedMonth.transport}} on Travel and Transport." textWrap="true"></Label>
+                <Label text="You spent Rs.{{selectedMonth.bills}} on Bills." textWrap="true"></Label>
+                <Label text="You spent Rs.{{selectedMonth.healthcare}} on Healthcare." textWrap="true"></Label>
+                <Label text="You spent Rs.{{selectedMonth.entertainment}} on Entertainment." textWrap="true"></Label>
+                <Label text="You spent Rs.{{selectedMonth.misc}} on Miscellaneous." textWrap="true"></Label>
+            </StackLayout>
         </StackLayout>
-    </StackLayout>
-</GridLayout>
+    </ScrollView>
+</AbsoluteView>
+
+<ng-template #Loading>
+    <ns-loading></ns-loading>
+</ng-template>

@@ -1,9 +1,30 @@
-.entry {
+.report {
     background-color: white;
-    margin-bottom: 10dp;
-    border-width: 3dp;
-    border-color: white;
-    border-radius: 10dp;
     padding: 10dp;
     min-height: 150dp;
+    color: black;
+    font-size: 20;
+    border-radius: 5;
+}
+
+.page {
+    background-color: #3A53FF;
+    color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.input-field {
+    padding: 10dp;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5;
+    height: 50dp;
+    width: 100%;
+    margin: 10 0;
+    color: black;
+}
+
+.container {
+    padding: 10;
 }
