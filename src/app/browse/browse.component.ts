@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { DataService } from "../services/data.service";
@@ -11,7 +11,6 @@ import { SelectedIndexChangedEventData } from "nativescript-drop-down";
     moduleId: module.id,
     styleUrls: ["./browse.component.scss"],
     templateUrl: "./browse.component.html",
-    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrowseComponent implements OnInit {
 
@@ -21,6 +20,7 @@ export class BrowseComponent implements OnInit {
     selectedIndex;
     months = [];
     pieData;
+    i = 0;
     constructor(
         private dataService: DataService,
         private firebaseService: FirebaseService
@@ -63,13 +63,32 @@ export class BrowseComponent implements OnInit {
     }
     getPieData() {
         this.pieData = [
-            { key: "entertainment", value: this.selectedMonth.entertainment },
-            { key: "foodandgroceries", value: this.selectedMonth.foodandgroceries },
-            { key: "bills", value: this.selectedMonth.bills },
-            { key: "transport", value: this.selectedMonth.transport },
-            { key: "healthcare", value: this.selectedMonth.healthcare },
-            { key: "misc", value: this.selectedMonth.misc }
+            { key: "Entertainment", value: this.selectedMonth.entertainment },
+            { key: "Food", value: this.selectedMonth.foodandgroceries },
+            { key: "Bills", value: this.selectedMonth.bills },
+            { key: "Transport", value: this.selectedMonth.transport },
+            { key: "Healthcare", value: this.selectedMonth.healthcare },
+            { key: "Misc", value: this.selectedMonth.misc }
         ];
-        console.log(this.pieData);
+    }
+
+    getRow() {
+        const i = this.i;
+        this.i++;
+        switch (i) {
+            case 1:
+                return 0;
+            case 2:
+                return 0;
+            case 3:
+                return 1;
+            case 4:
+                return 1;
+
+            case 5:
+                return 2;
+            case 6:
+                return 2;
+        }
     }
 }
