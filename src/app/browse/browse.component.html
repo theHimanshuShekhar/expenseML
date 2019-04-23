@@ -26,7 +26,7 @@
             <StackLayout *ngIf="selectedMonth" class="report">
                 <Label text="You spent Rs.{{getTotal(selectedMonth)}} this month." textWrap="true"></Label>
                 <Label *ngIf="user"
-                    text="You utilized  {{(getTotal(selectedMonth) / user.allowance) * 100}}% of your monthly allowance."
+                    text="You utilized  {{((getTotal(selectedMonth) / user.allowance) * 100).toFixed(2)}}% of your monthly allowance."
                     textWrap="true"></Label>
                 <Label text="You spent Rs.{{selectedMonth.foodandgroceries}} on Food and Groceries."
                     textWrap="true"></Label>
@@ -35,6 +35,24 @@
                 <Label text="You spent Rs.{{selectedMonth.healthcare}} on Healthcare." textWrap="true"></Label>
                 <Label text="You spent Rs.{{selectedMonth.entertainment}} on Entertainment." textWrap="true"></Label>
                 <Label text="You spent Rs.{{selectedMonth.misc}} on Miscellaneous." textWrap="true"></Label>
+            </StackLayout>
+            <StackLayout class="expenses-chart">
+                <Label text="Expenses"></Label>
+
+                <RadPieChart height="130" allowAnimation="true" row="1">
+                    <DonutSeries tkPieSeries seriesName="donut" selectionMode="None" expandRadius="0.4"
+                        outerRadiusFactor="0.7" innerRadiusFactor="0.8" [items]="pieData" valueProperty="value"
+                        legendLabel="key"></DonutSeries>
+
+                    <RadLegendView tkPieLegend position="Right" enableSelection="false"></RadLegendView>
+
+                    <Palette tkPiePalette seriesName="donut">
+                        <PaletteEntry tkPiePaletteEntry fillColor="#e3342f" strokeColor="#e3342f"></PaletteEntry>
+                        <PaletteEntry tkPiePaletteEntry fillColor="#3490dc" strokeColor="#3490dc"></PaletteEntry>
+                        <PaletteEntry tkPiePaletteEntry fillColor="#38c172" strokeColor="#38c172"></PaletteEntry>
+                        <PaletteEntry tkPiePaletteEntry fillColor="#f6993f" strokeColor="#f6993f"></PaletteEntry>
+                    </Palette>
+                </RadPieChart>
             </StackLayout>
         </StackLayout>
     </ScrollView>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { RadSideDrawer } from "nativescript-ui-sidedrawer";
 import * as app from "tns-core-modules/application";
 import { DataService } from "../services/data.service";
@@ -10,7 +10,8 @@ import { SelectedIndexChangedEventData } from "nativescript-drop-down";
     selector: "Browse",
     moduleId: module.id,
     styleUrls: ["./browse.component.scss"],
-    templateUrl: "./browse.component.html"
+    templateUrl: "./browse.component.html",
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BrowseComponent implements OnInit {
 
@@ -19,6 +20,7 @@ export class BrowseComponent implements OnInit {
     selectedMonth;
     selectedIndex;
     months = [];
+    pieData;
     constructor(
         private dataService: DataService,
         private firebaseService: FirebaseService
@@ -30,10 +32,11 @@ export class BrowseComponent implements OnInit {
         // Init your component properties here.
         this.dataService.getUserMonthly().then((data) => {
             this.monthlydata = data;
-            this.monthlydata.forEach(monthdata => {
+            this.monthlydata.forEach((monthdata) => {
                 this.months.push(monthdata.month);
             });
             this.selectedMonth = this.monthlydata[0];
+            this.getPieData();
             this.selectedIndex = 0;
         });
 
@@ -56,5 +59,17 @@ export class BrowseComponent implements OnInit {
     onMonthChange(args: SelectedIndexChangedEventData) {
         this.selectedIndex = args.newIndex;
         this.selectedMonth = this.monthlydata[args.newIndex];
+        this.getPieData();
+    }
+    getPieData() {
+        this.pieData = [
+            { key: "entertainment", value: this.selectedMonth.entertainment },
+            { key: "foodandgroceries", value: this.selectedMonth.foodandgroceries },
+            { key: "bills", value: this.selectedMonth.bills },
+            { key: "transport", value: this.selectedMonth.transport },
+            { key: "healthcare", value: this.selectedMonth.healthcare },
+            { key: "misc", value: this.selectedMonth.misc }
+        ];
+        console.log(this.pieData);
     }
 }
