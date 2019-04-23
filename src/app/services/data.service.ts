@@ -60,14 +60,41 @@ export class DataService {
     async getUserMonthly() {
         const monthly = [];
         await this.firebaseService.getCurrentUser().then(async (user) => {
-            await firestore.collection("users").doc(user.uid).collection("monthly").get().then((snapshot) => {  
-                snapshot.forEach(monthlydoc => {
-                    monthly.push(monthlydoc.data());  
+            await firestore.collection("users").doc(user.uid).collection("monthly").get().then((snapshot) => {
+                snapshot.forEach((monthlydoc) => {
+                    monthly.push(monthlydoc.data());
                 });
-            }); 
+            });
         });
+
         return monthly;
-    } 
+    }
+
+    async getAllMonthly() {
+        const monthly = [];
+        await this.firebaseService.getCurrentUser().then(async (user) => {
+            await firestore.collection("monthlydata").get().then((snapshot) => {
+                snapshot.forEach((monthlydoc) => {
+                    monthly.push(monthlydoc.data());
+                });
+            });
+        });
+
+        return monthly;
+    }
+
+    async getAllDaily() {
+        const daily = [];
+        await this.firebaseService.getCurrentUser().then(async (user) => {
+            await firestore.collection("dailydata").get().then((snapshot) => {
+                snapshot.forEach((monthlydoc) => {
+                    daily.push(monthlydoc.data());
+                });
+            });
+        });
+
+        return daily;
+    }
 
     getDateString(date) {
         const thedate = new Date(date);

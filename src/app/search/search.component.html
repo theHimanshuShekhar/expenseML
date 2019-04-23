@@ -15,7 +15,60 @@
     <Label class="action-bar-title" text="Analytics"></Label>
 </ActionBar>
 
-<GridLayout class="page page-content">
-    <Label class="page-icon fa" text="&#xf002;"></Label>
-    <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
-</GridLayout>
+<AbsoluteView>
+    <ScrollView class="page">
+        <StackLayout class="container" *ngIf="dailydata && monthlydata else Loading">
+            <StackLayout class="report">
+                <Label text="Overall Statistics" class="categoryvalue" textWrap="true"></Label>
+                <Label text="All User's have spent a total of Rs.{{this.allmonthlytotal}}" textWrap="true"></Label>
+            </StackLayout>
+            <StackLayout class="report">
+                <Label text="Breakdown by Category" class="title" textWrap="true"></Label>
+                <RadPieChart height="500" width="700" allowAnimation="true" *ngIf="allpiedata">
+                    <DonutSeries tkPieSeries selectionMode="None" [items]="allpiedata" valueProperty="value"
+                        legendLabel="category" showLabels="true">
+                    </DonutSeries>
+                    <RadLegendView tkPieLegend position="Top" width="300" showLabels="true"></RadLegendView>
+                </RadPieChart>
+            </StackLayout>
+
+            <StackLayout class="report">
+                <Label text="Expense based on Mode of Transport" class="title" textWrap="true"></Label>
+                <RadCartesianChart height="500" width="700" *ngIf="bardata">
+                    <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+                    <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                    <BarSeries tkCartesianSeries [items]="bardata" categoryProperty="key" valueProperty="value">
+                    </BarSeries>
+                </RadCartesianChart>
+            </StackLayout>
+
+            <StackLayout class="report">
+                <Label text="Bills Expense based on Residential Status" class="title" textWrap="true"></Label>
+                <RadCartesianChart height="500" width="700" *ngIf="bardata">
+                    <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+                    <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                    <BarSeries tkCartesianSeries [items]="billdata" categoryProperty="key" valueProperty="value">
+                    </BarSeries>
+                </RadCartesianChart>
+            </StackLayout>
+
+            <StackLayout class="report">
+                <Label text="Transport Expense based on Residential Status" class="title" textWrap="true"></Label>
+                <RadCartesianChart height="500" width="700" *ngIf="bardata">
+                    <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+                    <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+                    <BarSeries tkCartesianSeries [items]="transportdata" categoryProperty="key" valueProperty="value">
+                    </BarSeries>
+                </RadCartesianChart>
+            </StackLayout>
+
+            <!-- <StackLayout class="report">
+                <Label text="{{this.monthlydata[0] | json}}" class="categoryvalue" textWrap="true"></Label>
+            </StackLayout> -->
+        </StackLayout>
+    </ScrollView>
+</AbsoluteView>
+
+<ng-template #Loading>
+    <ns-loading></ns-loading>
+</ng-template>

@@ -1,0 +1,58 @@
+.report {
+    background-color: white;
+    padding: 10dp;
+    color: black;
+    font-size: 20;
+    border-radius: 5;
+    margin: 10 0;
+}
+
+.categories {
+    background-color: white;
+    padding: 10dp;
+    border-radius: 5;
+    margin-bottom: 10 0;
+}
+
+.categoryname {
+    font-size: 20;
+    font-weight: 600;
+}
+
+.title {
+    font-size: 20;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+.categoryvalue {
+    font-size: 30;
+}
+
+.page {
+    background-color: #3A53FF;
+    color: black;
+    height: 100%;
+    width: 100%;
+}
+
+.input-field {
+    padding: 10dp;
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5;
+    height: 50dp;
+    width: 100%;
+    color: black;
+}
+
+.container {
+    padding: 10;
+}
+
+.chart {
+    background-color: white;
+    margin: 10 0;
+    border-radius: 5;
+}

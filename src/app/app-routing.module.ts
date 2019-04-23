@@ -11,7 +11,7 @@ import { HomeComponent } from "./home/home.component";
 import { SettingsComponent } from "./settings/settings.component";
 
 const routes: Routes = [
-    { path: "", redirectTo: "/browse", pathMatch: "full" },
+    { path: "", redirectTo: "/search", pathMatch: "full" },
     { path: "home", component: HomeComponent },
     { path: "landing", component: LandingComponent },
     { path: "login", component: LoginComponent },

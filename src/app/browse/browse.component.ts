@@ -10,7 +10,7 @@ import { SelectedIndexChangedEventData } from "nativescript-drop-down";
     selector: "Browse",
     moduleId: module.id,
     styleUrls: ["./browse.component.scss"],
-    templateUrl: "./browse.component.html",
+    templateUrl: "./browse.component.html"
 })
 export class BrowseComponent implements OnInit {
 
